@@ -1,0 +1,144 @@
+diff aperto aperto aperto true
+diff aperto aperto chiuso true
+diff aperto aperto var true
+diff aperto aperto vuoto true
+diff aperto chiuso aperto true
+diff aperto chiuso chiuso true
+diff aperto chiuso var true
+diff aperto chiuso vuoto true
+diff aperto var aperto true
+diff aperto var chiuso true
+diff aperto var var true
+diff aperto var vuoto true
+diff aperto vuoto aperto true
+diff aperto vuoto chiuso true
+diff aperto vuoto var true
+diff aperto vuoto vuoto false
+diff chiuso aperto aperto true
+diff chiuso aperto chiuso true
+diff chiuso aperto var true
+diff chiuso aperto vuoto true
+diff chiuso chiuso aperto true
+diff chiuso chiuso chiuso true
+diff chiuso chiuso var true
+diff chiuso chiuso vuoto true
+diff chiuso var aperto true
+diff chiuso var chiuso true
+diff chiuso var var true
+diff chiuso var vuoto true
+diff chiuso vuoto aperto true
+diff chiuso vuoto chiuso true
+diff chiuso vuoto var true
+diff chiuso vuoto vuoto false
+diff var aperto aperto true
+diff var aperto chiuso true
+diff var aperto var true
+diff var aperto vuoto true
+diff var chiuso aperto true
+diff var chiuso chiuso true
+diff var chiuso var true
+diff var chiuso vuoto true
+diff var var aperto true
+diff var var chiuso true
+diff var var var true
+diff var var vuoto true
+diff var vuoto aperto true
+diff var vuoto chiuso true
+diff var vuoto var true
+diff var vuoto vuoto true
+diff vuoto aperto aperto false
+diff vuoto aperto chiuso false
+diff vuoto aperto var true
+diff vuoto aperto vuoto true
+diff vuoto chiuso aperto false
+diff vuoto chiuso chiuso false
+diff vuoto chiuso var true
+diff vuoto chiuso vuoto true
+diff vuoto var aperto false
+diff vuoto var chiuso false
+diff vuoto var var true
+diff vuoto var vuoto true
+diff vuoto vuoto aperto false
+diff vuoto vuoto chiuso false
+diff vuoto vuoto var true
+diff vuoto vuoto vuoto true
+inters aperto aperto aperto true
+inters aperto aperto chiuso true
+inters aperto aperto var true
+inters aperto aperto vuoto true
+inters aperto chiuso aperto true
+inters aperto chiuso chiuso true
+inters aperto chiuso var true
+inters aperto chiuso vuoto true
+inters aperto var aperto true
+inters aperto var chiuso true
+inters aperto var var true
+inters aperto var vuoto true
+inters aperto vuoto aperto false
+inters aperto vuoto chiuso false
+inters aperto vuoto var true
+inters aperto vuoto vuoto true
+inters chiuso aperto aperto true
+inters chiuso aperto chiuso true
+inters chiuso aperto var true
+inters chiuso aperto vuoto true
+inters chiuso chiuso aperto true
+inters chiuso chiuso chiuso true
+inters chiuso chiuso var true
+inters chiuso chiuso vuoto true
+inters chiuso var aperto true
+inters chiuso var chiuso true
+inters chiuso var var true
+inters chiuso var vuoto true
+inters chiuso vuoto aperto false
+inters chiuso vuoto chiuso false
+inters chiuso vuoto var true
+inters chiuso vuoto vuoto true
+inters var aperto aperto true
+inters var aperto chiuso true
+inters var aperto var true
+inters var aperto vuoto true
+inters var chiuso aperto true
+inters var chiuso chiuso true
+inters var chiuso var true
+inters var chiuso vuoto true
+inters var var aperto true
+inters var var chiuso true
+inters var var var true
+inters var var vuoto true
+inters var vuoto aperto false
+inters var vuoto chiuso false
+inters var vuoto var true
+inters var vuoto vuoto true
+inters vuoto aperto aperto false
+inters vuoto aperto chiuso false
+inters vuoto aperto var true
+inters vuoto aperto vuoto true
+inters vuoto chiuso aperto false
+inters vuoto chiuso chiuso false
+inters vuoto chiuso var true
+inters vuoto chiuso vuoto true
+inters vuoto var aperto false
+inters vuoto var chiuso false
+inters vuoto var var true
+inters vuoto var vuoto true
+inters vuoto vuoto aperto false
+inters vuoto vuoto chiuso false
+inters vuoto vuoto var true
+inters vuoto vuoto vuoto true
+subset aperto aperto true
+subset aperto chiuso true
+subset aperto var true
+subset aperto vuoto false
+subset chiuso aperto true
+subset chiuso chiuso true
+subset chiuso var true
+subset chiuso vuoto false
+subset var aperto true
+subset var chiuso true
+subset var var true
+subset var vuoto true
+subset vuoto aperto true
+subset vuoto chiuso true
+subset vuoto var true
+subset vuoto vuoto true

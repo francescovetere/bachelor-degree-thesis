@@ -1,0 +1,30 @@
+$$$ global $$$
+
+// es.: s1 = ris(X in {2,3,4},true,X). 	
+public Constraint myRis(LVar controlTerm, LSet domain, Constraint filter, LObject pattern, LSet insiemeDaUnificare) {
+	return insiemeDaUnificare.eq(new Ris(controlTerm, domain, filter, pattern));
+}
+
+$$$ local $$$
+
+$$$ args $$$
+//costruisco cosi' gli elementi del Ris: 
+//al primo posto, il control term
+//al secondo posto, il dominio
+//al terzo posto, il filtro
+//al quarto posto, il pattern 
+//al quinto posto, l'insieme da unificare (es.: C.eq(new Ris(...)) )
+
+lvar$LVar LV1 = new LVar("LV1")$***$***$***$***
+
+vuoto$***$LSet E2 = LSet.empty()$***$***$LSet E3 = LSet.empty()
+chiuso$***$LSet C2 = LSet.empty().ins(new LVar("X2")).ins(new LVar("Y2"))$***$***$LSet C3 = LSet.empty().ins(new LVar("X3")).ins(new LVar("Y3"))
+
+filtroTrue$***$***$Constraint ConstrTrue = new Constraint("_true")$***$***
+filtroFalse$***$***$Constraint ConstrFalse = new Constraint("_false")$***$***
+filtroCustom$***$***$Constraint ConstrCustom = LV1.eq(4)$***$***
+
+pattern1$***$***$***$LObject pattern1 = LV1$***
+
+$$$ constraints $$$
+myRis$5$prefix

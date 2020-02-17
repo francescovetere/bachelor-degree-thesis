@@ -1,0 +1,20 @@
+Disj 162
+Disj 154
+Disj 154
+Disj 151
+Disj 145
+Disj 138
+
+Eq 2286
+Eq 2367
+Eq 2620
+Eq 2031
+Eq 2875
+Eq 2308
+
+Union 10371
+Union 10645
+Union 11310
+Union 10645
+Union 10921
+Union 11645

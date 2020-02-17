@@ -1,0 +1,80 @@
+comp aperta aperta aperta true
+comp aperta aperta chiusaPiccolaNotGround true
+comp aperta aperta var true
+comp aperta aperta vuota true
+comp aperta chiusaPiccolaNotGround aperta true
+comp aperta chiusaPiccolaNotGround chiusaPiccolaNotGround true
+comp aperta chiusaPiccolaNotGround var true
+comp aperta chiusaPiccolaNotGround vuota true
+comp aperta var aperta true
+comp aperta var chiusaPiccolaNotGround true
+comp aperta var var true
+comp aperta var vuota true
+comp aperta vuota aperta false
+comp aperta vuota chiusaPiccolaNotGround false
+comp aperta vuota var true
+comp aperta vuota vuota true
+comp chiusaGrossaGround aperta aperta true
+comp chiusaGrossaGround aperta chiusaPiccolaNotGround true
+comp chiusaGrossaGround aperta var true
+comp chiusaGrossaGround aperta vuota true
+comp chiusaGrossaGround chiusaPiccolaNotGround aperta true
+comp chiusaGrossaGround chiusaPiccolaNotGround chiusaPiccolaNotGround true
+comp chiusaGrossaGround chiusaPiccolaNotGround var true
+comp chiusaGrossaGround chiusaPiccolaNotGround vuota true
+comp chiusaGrossaGround var aperta true
+comp chiusaGrossaGround var chiusaPiccolaNotGround true
+comp chiusaGrossaGround var var true
+comp chiusaGrossaGround var vuota true
+comp chiusaGrossaGround vuota aperta false
+comp chiusaGrossaGround vuota chiusaPiccolaNotGround false
+comp chiusaGrossaGround vuota var true
+comp chiusaGrossaGround vuota vuota true
+comp var aperta aperta true
+comp var aperta chiusaPiccolaNotGround true
+comp var aperta var true
+comp var aperta vuota true
+comp var chiusaPiccolaNotGround aperta true
+comp var chiusaPiccolaNotGround chiusaPiccolaNotGround true
+comp var chiusaPiccolaNotGround var true
+comp var chiusaPiccolaNotGround vuota true
+comp var var aperta true
+comp var var chiusaPiccolaNotGround true
+comp var var var true
+comp var var vuota true
+comp var vuota aperta false
+comp var vuota chiusaPiccolaNotGround false
+comp var vuota var true
+comp var vuota vuota true
+comp vuota aperta aperta false
+comp vuota aperta chiusaPiccolaNotGround false
+comp vuota aperta var true
+comp vuota aperta vuota true
+comp vuota chiusaPiccolaNotGround aperta false
+comp vuota chiusaPiccolaNotGround chiusaPiccolaNotGround false
+comp vuota chiusaPiccolaNotGround var true
+comp vuota chiusaPiccolaNotGround vuota true
+comp vuota var aperta false
+comp vuota var chiusaPiccolaNotGround false
+comp vuota var var true
+comp vuota var vuota true
+comp vuota vuota aperta false
+comp vuota vuota chiusaPiccolaNotGround false
+comp vuota vuota var true
+comp vuota vuota vuota true
+inv aperta aperta true
+inv aperta chiusaPiccolaNotGround true
+inv aperta var true
+inv aperta vuota false
+inv chiusaGrossaGround aperta true
+inv chiusaGrossaGround chiusaPiccolaNotGround false
+inv chiusaGrossaGround var true
+inv chiusaGrossaGround vuota false
+inv var aperta true
+inv var chiusaPiccolaNotGround true
+inv var var true
+inv var vuota true
+inv vuota aperta false
+inv vuota chiusaPiccolaNotGround false
+inv vuota var true
+inv vuota vuota true

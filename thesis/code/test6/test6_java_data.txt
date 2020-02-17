@@ -1,0 +1,14 @@
+$$$ global $$$
+
+$$$ local $$$
+
+$$$ args $$$
+vuoto$LRel L1 = LRel.empty()$LRel L2 = LRel.empty()$LRel L3 = LRel.empty()
+var$LRel L4 = new LRel("L4")$LRel L5 = new LRel("L5")$LRel L6 = new LRel("L6")
+chiuso$LRel L7 = LRel.empty().ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))$LRel L8 = LRel.empty().ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))$LRel L9 = LRel.empty().ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))
+aperto$LRel L10 = new LRel("L10").ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))$LRel L11 = new LRel("L11").ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))$LRel L12 = new LRel("L12").ins(new LPair(new LVar(),new LVar())).ins(new LPair(new LVar(),new LVar()))
+
+$$$ constraints $$$
+comp$3$infix
+inv$2$infix
+id$2$infix

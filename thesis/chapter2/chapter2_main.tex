@@ -1,0 +1,326 @@
+\begin{document}
+
+\section{Descrizione dell'ambiente}
+
+In questo capitolo viene presentato l'ambiente in cui opera lo strumento software realizzato per questo lavoro di tesi.
+\subsection{JSetL}
+
+\subsubsection{Principali features}
+JSetL è una libreria Java sviluppata presso il Dipartimento di Matematica e Informatica dell'Università di Parma.\\
+Il suo scopo è quello di combinare il paradigma object-oriented di Java con alcuni concetti classici del paradigma logico a vincoli, tra i quali:\\
+
+\begin{itemize}
+\item \textbf{Variabili logiche}\\ Sono le variabili tipiche del paradigma logico-funzionale.\\
+Possono essere inizializzate o non inizializzate, e il loro valore può potenzialmente essere di ogni tipo ammesso dal linguaggio: può in particolare essere determinato come risultato della risoluzione di vincoli che coinvolgono le variabili stesse.\\
+
+\item \textbf{Unificazione}\\ Il meccanismo dell'unificazione è fondamentale in questo paradigma di programmazione, e permette sia di testare l'uguaglianza tra oggetti, sia di assegnare valori alle variabili logiche non inizializzate eventualmente contenute al loro interno nel tentativo di rendere uguali i due termini del confronto.\\
+
+\clearpage
+
+\item \textbf{Risoluzione di vincoli}\\ JSetL fornisce una serie di vincoli di base quali uguaglianza, disuguaglianza, operazioni insiemistiche di
+base come differenza, unione, intersezione e molte altre.\\ 
+Un vincolo viene prima aggiunto allo store dei vincoli (\emph{constraint store}), e successivamente viene risolto tramite un risolutore (\emph{solver}) attraverso regole di riscrittura sintattica.\\
+JSetL permette inoltre la creazione di vincoli composti (tramite congiunzione, disgiunzione e implicazione) e vincoli definiti da utente.\\
+
+\item \textbf{Non determinismo}\\ I vincoli in JSetL vengono risolti in maniera non deterministica: sia perché l'ordine di risoluzione degli stessi non è rilevante, sia perché nel processo di risoluzione si fa ampio di uso di choice-points e di backtracking.\\
+
+\end{itemize}
+
+Inoltre, JSetL fornisce \textbf{insiemi} e \textbf{liste} come strutture dati fondamentali, su cui è possibile operare tramite una serie di vincoli, in particolare vincoli insiemistici che implementano le classiche operazioni su insiemi, quali unione, intersezione, appartenenza, ecc...\\ La principale differenza tra liste e insiemi risiede nel fatto che nelle liste sono rilevanti ordine e ripetizioni degli elementi, negli insiemi no.\\
+Entrambe le strutture dati permettono di collezionare elementi di tipo generico: in particolare, esse possono essere parzialmente specificate (ovvero possono contenere variabili logiche non inizializzate, aspetto molto importante in JSetL).\\
+
+Vengono di seguito brevemente analizzate le classi principali che compongono la libreria e che compariranno di frequente in questa tesi.\\
+
+\subsubsection{Classi fondamentali}
+
+\textbf{LVar}\\
+La classe \texttt{LVar} implementa il concetto di variabile logica descritto in precedenza.\\
+Oggetti di classe \texttt{LVar} possono essere creati associandovi un valore (\emph{bound}), lasciandoli non inizializzati (\emph{unbound}), e possono o meno avere un nome identificativo associato.\\
+Esempi:\\
+\begin{lstlisting}
+// Creazione di una LVar unbound senza nome associato
+LVar A = new LVar();
+
+//Creazione di una LVar bound senza nome associato
+LVar B = new LVar(1);
+
+//Creazione di una LVar bound con nome associato
+LVar C = new LVar("C", 3);
+\end{lstlisting}
+
+\textbf{LSet}\\
+La classe \texttt{LSet} implementa il concetto di insieme logico.\\
+Come visto in precedenza, un insieme logico può contenere qualsiasi oggetto (in particolare anche un altro \texttt{LSet}), ignorando ordine e ripetizione degli elementi.\\
+Similmente alle \texttt{LVar}, oggetti di tipo \texttt{LSet} possono essere bound o unbound, con o senza nome identificativo associato, e possono inoltre essere completamente specificati (\emph{chiusi}) oppure parzialmente specificati (\emph{aperti}).\\
+Esempi:\\
+
+\begin{lstlisting}
+/* Creazione di un LSet unbound senza nome associato
+   (rappresenta un insieme completamente variabile) */
+LSet A = new LSet();
+
+/* Creazione di un LSet completamente specificato, bound e senza nome associato
+   (rappresenta l'insieme {1,2,3}) */
+LSet B = LSet.empty().ins(1).ins(2).ins(3);
+
+/* Creazione di un LSet parzialmente specificato, unbound e con nome associato
+   (rappresenta l'insieme {_LV1, _LV2 | C}) */
+LSet C = new LSet("C").ins(new LVar()).ins(new LVar());
+\end{lstlisting}
+
+Come si vedrà in seguito, recentemente è stata aggiunta a JSetL una nuova importante categoria di insiemi logici, quella dei Restricted Intensional Set (si veda [6]), che verranno analizzati e testati nel capitolo 5.9.\\
+Grazie ad un recente lavoro di tesi inoltre (si veda [7]), JSetL implementa, in aggiunta al linguaggio CLP(\(\mathcal{SET}\)) che verrà brevemente discusso nel capitolo 2.2, anche il linguaggio \mathcal{L\textsubscript{\(\mathcal{BR}\)}}, ossia l'estensione di CLP(\(\mathcal{SET}\)) con il concetto di relazione binaria.\\
+Questa estensione comporta l'aggiunta di classi come \texttt{LRel} e \texttt{LMap}, di seguito descritte.\\
+
+\textbf{LRel}\\
+La classe \texttt{LRel} implementa le relazioni binarie in JSetL.\\
+Una relazione binaria è rappresentata come un particolare insieme i cui elementi sono coppie ordinate: per questo motivo la classe \texttt{LRel} estende la classe \texttt{LSet}.\\
+Un'istanza di \texttt{LRel} è dunque un'istanza di \texttt{LSet} in cui gli elementi sono coppie logiche, rappresentate dalla classe \texttt{LPair}.\\
+Esempi:\\
+
+\begin{lstlisting}
+/* Creazione di una LRel unbound con nome associato "A" */
+LRel A = new LRel("A");
+
+/* Creazione della LRel {[0,1],[2,3]}, senza nome associato */
+LRel B = LRel.empty().ins(new LPair(0, 1)).ins(new LPair(2, 3));
+\end{lstlisting}
+
+\clearpage
+
+\textbf{La classe LMap}\\
+La classe \texttt{LMap} implementa le funzioni parziali in JSetL.\\
+Una funzione parziale è rappresentata come una particolare relazione binaria in cui i primi componenti di tutte le coppie della relazione sono diversi gli uni dagli altri: per questo motivo la classe \texttt{LMap} estende la classe \texttt{LRel}.\\
+Esempi:\\
+
+\begin{lstlisting}
+/* Creazione di una LMap unbound con nome associato "A" */
+LMap A = new LMap("A");
+
+/* Creazione della LMap {[1,'a'],[2,'b']}, senza nome associato */
+LMap B = LMap.empty().ins(new LPair(1, 'a')).ins(new LPair(2, 'b'));
+\end{lstlisting}
+
+\textbf{La classe Constraint}\\
+La classe \texttt{Constraint} rappresenta la nozione di vincolo in JSetL.\\
+Un vincolo è un'operazione che può essere applicata ad una variabile logica (\texttt{LVar}) o ad un insieme logico (\texttt{LSet}, \texttt{LRel}, \texttt{LMap}).\\
+Un vincolo può essere atomico o composto.\\
+
+\begin{itemize}
+\item \textbf{Vincolo atomico}\\
+Un vincolo atomico può essere di queste tipologie:
+\begin{itemize}
+\item Vincolo \emph{vuoto}, denotato da \texttt{[]}
+\item $ e_{0}.op(e_{1},...,e_{n}) $ oppure $op(e_{0},e_{1},...,e_{n}) $ con $ n = 0,...,3 $\\
+dove $op$ è il nome del vincolo, e $e_{i} (0 \le i \le 3)$ sono espressioni il cui tipo dipende da $op$.\\
+\end{itemize}
+
+\clearpage
+
+\item \textbf{Vincolo composto}\\
+Un vincolo composto può essere ottenuto tramite:
+\begin{itemize}
+\item Congiunzione ($ c_{1}.and(c_{2}) $)
+\item Disgiunzione ($ c_{1}.or(c_{2}) $)
+\item Implicazione ($ c_{1}.impliesTest(c_{2}) $)\\
+\end{itemize}
+
+\end{itemize}
+
+Vengono di seguito riportate due tabelle con i vincoli principali per \texttt{LSet} e \texttt{LRel}.\\
+
+\textsc{Vincoli di LSet}
+\begin{table}[h]
+%\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textsc{Vincolo} & \textsc{Sintassi}                	& \textsc{Significato}                               	\\ \hline
+\textbf{eq}      & Constraint eq(LSet s)            	& \texttt{this} $=$ \texttt{s}                      	\\ \hline
+\textbf{disj}    & Constraint disj(LSet s)          	& \texttt{this} $\cap$ \texttt{s} $=$ $\varnothing$ 	\\ \hline
+\textbf{union}   & Constraint union(LSet s, LSet q) 	& \texttt{q} $=$ \texttt{this} $\cup$ \texttt{s}     	\\ \hline
+\textbf{in}      & Constraint in(LSet s)            	& \texttt{this} $\in$ \texttt{s}                    	\\ \hline
+\textbf{diff}    & Constraint diff(LSet s, LSet q)  	& \texttt{q} $=$ \texttt{this} $\setminus$ \texttt{s}   \\ \hline
+\textbf{inters}  & Constraint inters(LSet s, LSet q)	& \texttt{q} $=$ \texttt{this} $\cap$ \texttt{s}        \\ \hline
+\textbf{subset}  & Constraint subset(LSet s)        	& \texttt{this} $\subseteq$ \texttt{s}                  \\ \hline
+\textbf{size}    & Constraint size(IntLVar n)       	& \texttt{n} $=$ $|$ \texttt{this} $|$              	\\ \hline
+\end{tabular}
+\end{table}
+
+
+\textsc{Vincoli di LRel}
+
+\begin{table}[h]
+%\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textsc{Vincolo} & \textsc{Sintassi}                & \textsc{Significato}                               	\\ \hline
+\textbf{id}      & Constraint id(LSet a)		    & $this = \{(x, x) \:| \: x \in a \}$  	\\ \hline
+\textbf{inv}     & Constraint inv(LRel s)           & $s = \{ (y, x) \:| \: (x, y) \in this \}$ 	\\ \hline
+\textbf{comp}    & Constraint comp(LRel s, LRel q)  & $q = \{ (x, z) \:| \: \exists y : (x, y) \in this \: \wedge $\\ & & $\: (y, z) \in s \}$ \\ \hline
+
+\textbf{dom}     & Constraint dom(LSet a)           & $a = \{ x \:| \: \exists y : ((x, y) \in this)\}$ 	\\ \hline
+\textbf{ran}     & Constraint ran(LSet a)           & $a = \{ y \:| \: \exists x : ((x, y) \in this)\}$ 	\\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\textbf{La classe Solver}\\
+Il risolutore di vincoli è implementato dalla classe \texttt{Solver}.\\
+La classe fornisce metodi per aggiungere, mostrare e risolvere vincoli.\\
+I vincoli vengono risolti tramite regole di riscrittura sintattica, e la procedura di risoluzione termina quando non vi sono più regole da applicare (oppure nel momento in cui viene lanciata un'eccezione di tipo \texttt{Failure}, nel caso in cui il vincolo non sia soddisfacibile).\\
+I metodi principali della classe sono i seguenti:\\
+\begin{itemize}
+\item public void \textbf{add}(Constraint c)\\ 
+Aggiunge il vincolo \texttt{c} al constraint store del risolutore.\\
+\item public void \textbf{showStore}()\\ 
+Stampa la congiunzione di tutti i vincoli presenti nel constraint store del risolutore ancora in forma non risolta.\\
+\item public void \textbf{solve}()\\ 
+Risolve i vincoli nel constraint store del risolutore: se la risoluzione non è possibile, solleva un'eccezione di tipo \texttt{Failure}.\\
+\item public boolean \textbf{check}()\\ 
+Analogo al metodo \texttt{solve()}, con la differenza che non vengono sollevate eccezioni: ritorna \texttt{true} se i vincoli presenti nel constraint store del risolutore sono soddisfacibili, \texttt{false} altrimenti.\\
+\end{itemize}
+
+\end{itemize}
+
+\clearpage
+
+\subsection{CLP(\(\mathcal{SET}\)) e \{log\}}
+La programmazione con vincoli (\emph{CP, Constraint Programming}) può essere vista come una forma di programmazione dichiarativa che permette di manipolare esplicitamente vincoli (ossia relazioni su opportuni domini).\\
+In particolare, se il linguaggio utilizzato per la programmazione con vincoli è di tipo logico si parla di programmazione logica con vincoli (\emph{CLP, Constraint Logic Programming}).\\
+Un esempio di linguaggio di programmazione logica con vincoli è CLP(\(\mathcal{SET}\)), in cui il dominio dei vincoli è quello degli insiemi logici.
+Come visto in precedenza nel capitolo 2.1.1 inoltre, l'estensione del linguaggio a vincoli presente in CLP(\(\mathcal{SET}\)) con l'aggiunta delle relazioni binarie prende il nome di linguaggio \mathcal{L\textsubscript{\(\mathcal{BR}\)}}.\\
+
+\mathcal{L\textsubscript{\(\mathcal{BR}\)}} è implementato nella libreria JSetL, in un contesto di programmazione O-O.\\
+Esiste un'implementazione di \mathcal{L\textsubscript{\(\mathcal{BR}\)}} anche per Prolog, che prende il nome di \{log\} (da leggersi \emph{setlog}).\\
+
+\{log\} è un interprete inizialmente sviluppato presso il Dipartimento di Matematica e Informatica di Udine.\\
+Il suo scopo è quello di implementare il linguaggio CLP(\(\mathcal{SET}\)) e le successive estensioni del suo linguaggio a vincoli in un contesto di programmazione logica.\\
+\{log\} è di fatto molto simile a Prolog nella sintassi, ed è utilizzabile sia in modalità interattiva a riga di comando, sia come modulo esterno da includere nel proprio sorgente Prolog.\\
+
+\clearpage
+
+Anche \{log\} fornisce una serie di vincoli di base su insiemi e relazioni: di seguito viene proposta una panoramica dei vincoli visti in precedenza per il caso di JSetL.\\\\
+
+\begin{table}[h]
+\textsc{Vincoli su insiemi}\\
+
+%\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textsc{Vincolo} & \textsc{Sintassi}                	& \textsc{Significato}                               	\\ \hline
+\textbf{=}       & A = B                             	& \texttt{A} $=$ \texttt{B}                      	\\ \hline
+\textbf{disj}    & disj(A, B)                        	& \texttt{A} $\cap$ \texttt{B} $=$ $\varnothing$ 	\\ \hline
+\textbf{un}      & un(A, B, C) 	                        & \texttt{C} $=$ \texttt{A} $\cup$ \texttt{B}	  	\\ \hline
+\textbf{in}      & x in A                           	& \texttt{x} $\in$ \texttt{A}                    	\\ \hline
+\textbf{diff}    & diff(A, B, C)                    	& \texttt{C} $=$ \texttt{A} $\setminus$ \texttt{B}   \\ \hline
+\textbf{inters}  & inters(A, B, C)                  	& \texttt{C} $=$ \texttt{A} $\cap$ \texttt{B}        \\ \hline
+\textbf{subset}  & subset(A, B) 				       	& \texttt{A} $\subseteq$ \texttt{B}                  \\ \hline
+\textbf{size}    & size(A, N)					       	& \texttt{N} $=$ $|$ \texttt{A} $|$              	\\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
+\begin{table}[h]
+\newline
+\vspace*{1 cm}
+\newline
+\textsc{Vincoli su relazioni}\\
+
+%\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textsc{Vincolo} & \textsc{Sintassi}              	    & \textsc{Significato}                               	\\ \hline
+\textbf{id}      & id(R, A)							    & \texttt{R} $= \{(x, x) \:| \: x \in A \}$  	\\ \hline
+\textbf{inv}     & inv(R, S)           					& \texttt{R} $=$ \texttt{S}^{-1} 	\\ \hline
+\textbf{comp}    & comp(R, S, T)                        & \texttt{T} $=$ \texttt{R} $\circ$ \texttt{S}	\\ \hline
+\textbf{dom}     & dom(R, A)       					    & \texttt{dom R} $=$ \texttt{A} 	\\ \hline
+\textbf{ran}     & ran(R, A)          					& \texttt{ran R} $=$ \texttt{A}	\\ \hline
+\end{tabular}
+\end{table}
+
+\clearpage
+
+\subsection{JUnit}
+JUnit è un framework open-source per il linguaggio di programmazione Java pensato per fare unit testing in maniera semplice ed organizzata.\\
+Il framework si basa principalmente su annotazioni e asserzioni, utilizzate in maniera opportuna.\\
+Uno \emph{unit test} è tipicamente realizzato attraverso una classe al cui interno sono presenti diversi metodi, detti \emph{test cases}.\\
+Vi sono delle precise regole da seguire per la creazione di uno unit test:
+\begin{itemize}
+\item Ogni metodo di test deve avere visibilità \texttt{public} e tipo di ritorno \texttt{void};
+\item Ogni metodo di test deve essere annotato con una delle annotazioni fornite da JUnit (la più tipica è \texttt{@Test});
+\item La valutazione del risultato deve essere fatta attraverso i metodi della classe \texttt{junit.framework.Assert}, la quale fornisce diverse tipologie di asserzioni.
+\end{itemize}
+
+In JUnit 4 (il più utilizzato al momento della scrittura di questa tesi) tutti i metodi di test vengono eseguiti in maniera sequenziale, ma in un ordine non meglio precisato.\\
+Da JUnit 5 è stata invece introdotta la possibilità di eseguire più metodi di test in parallelo tra loro.\\
+
+\subsubsection{Annotazioni principali}
+
+Le annotazioni principali fornite da JUnit sono:\\
+\begin{itemize}
+\item \textbf{@Test}\\Dichiara che ciò che segue è un metodo di test. Ogni metodo preceduto da questa annotazione verrà testato a run-time.\\
+\item \textbf{@Before}\\Dichiara che il metodo che segue deve essere eseguito prima di ogni esecuzione di un caso di test (tipicamente per re-inizializzare i parametri prima di ogni test).\\
+\item \textbf{@After}\\Dichiara che il metodo che segue deve essere eseguito dopo ogni esecuzione di un caso di test (tipicamente per rilasciare le risorse precedentemente allocate).\\
+\item \textbf{@BeforeClass}\\Dichiara che il metodo che segue sarà necessariamente statico, e verrà eseguito una sola volta prima di eseguire il primo test case della classe (tipicamente per inizializzare dati globali).\\
+\item \textbf{@AfterClass}\\Dichiara che il metodo che segue sarà necessariamente statico, e verrà eseguito una sola volta dopo aver eseguito l'ultimo test case della classe (tipicamente per effettuare operazioni finali una volta ottenuti tutti i risultati dei test, come ad esempio un report su file).\\
+\end{itemize}
+
+\subsubsection{Asserzioni principali}
+
+Le asserzioni principali fornite da JUnit sono:\\
+\begin{itemize}
+\item public static void \textbf{assertTrue}(boolean condition)\\Asserisce che \texttt{condition} sia valutata a \texttt{true}.\\
+\item public static void \textbf{assertFalse}(boolean condition)\\Asserisce che \texttt{condition} sia valutata a \texttt{false}.\\
+\item public static void \textbf{assertEquals}(Object expected, Object actual)\\Asserisce che \texttt{expected} sia valutato uguale a \texttt{actual}.\\
+\item public static void \textbf{assertNull}(Object obj)\\Asserisce che \texttt{obj} sia valutato a \texttt{null}.\\
+\end{itemize}
+
+\subsubsection{Gestione delle eccezioni}
+Altro aspetto da considerare è la gestione delle eccezioni, diversa a seconda che si utilizzi JUnit 4 o JUnit 5.\\
+
+In JUnit 4 è necessario aggiungere, di seguito alla direttiva \texttt{@Test}, l'eccezione che si presuppone venga sollevata a causa dell'esecuzione del metodo, tramite la seguente sintassi:
+\begin{verbatim}
+@Test(expected = MyException.class)
+
+\end{verbatim}
+
+In JUnit 5 viene introdotta invece l'asserzione \texttt{assertThrows} che permette un controllo molto più preciso sulle eccezioni, in quanto è possibile testarne più di una in un unico test case.\\
+La sintassi, che fa uso delle lambda-expressions di Java 8, è la seguente:
+\begin{verbatim}
+assertThrows(MyException.class, () -> doOperation(),
+            "Expected doOperation() to throw MyException,
+             but it didn't");
+\end{verbatim}
+
+\subsubsection{Un esempio completo}
+Di seguito viene presentato un esempio di struttura completa di uno unit test, prendendo come esempio un'ipotetica classe \texttt{Razionale} che implementa appunto i numeri razionali.\\
+
+\begin{lstlisting}
+public class TestRazionale {
+	//...
+	
+	@Test
+	public void test1() {
+		Razionale a = new Razionale(2, 3); // crea il numero razionale 2/3
+		Razionale b = new Razionale(4, 6);
+		assertTrue(a.equals(b));
+	}
+	
+	@Test
+	public void test2() {
+		Razionale a = new Razionale(1, 2);
+		assertNotNull(a);
+	}
+	
+	//... 
+}
+\end{lstlisting}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\end{document}

@@ -1,0 +1,19 @@
+\begin{document}
+\section{Conclusioni e lavori futuri}
+
+In questo lavoro di tesi è stato affrontato il problema del testing dei vincoli della libreria Java JSetL.
+Il problema è stato affrontato realizzando uno strumento software ad hoc avente il compito di generare i test cases in maniera automatica.
+La realizzazione dello strumento ha quindi permesso di avere a disposizione un tool dalla duplice funzione.\\
+Un primo aspetto utile è dato dalla possibilità di testare la correttezza di qualsiasi vincolo presente nella libreria (anche eventualmente di vincoli che verranno sviluppati in futuro e quindi non esistenti al momento della realizzazione dello strumento).\\
+Un secondo aspetto utile è dato dalla possibilità di effettuare dei benchmark sistematici sull'esecuzione dei test set generati. 
+Ciò permette di evidenziare quali vincoli riescano a scalare meglio all'aumentare delle dimensioni dei parametri: i dati ricavati dall'analisi di questi tempi forniscono un valido suggerimento che può indicare dove sia più opportuno iniziare a lavorare nel caso si voglia rendere la libreria nel suo complesso sempre più efficiente.\\ 
+
+Per quanto riguarda eventuali sviluppi futuri, vi sono almeno due aspetti non trattati da questa tesi su cui si potrebbe lavorare.\\
+Sicuramente il multi-threading è ancora tutto da esplorare: lo strumento genera al momento classi Java che sfruttano l'approccio di default di JUnit 4, ossia quello di un unico thread master il quale esegue sequenzialmente i diversi metodi di test.\\
+A partire dalla versione 5.3 di JUnit tuttavia, è possibile eseguire più metodi di test in parallelo tra loro (sebbene la feature, al momento della scrittura di questa tesi, sia ancora in fase sperimentale).\\
+Si potrebbe quindi fare un confronto tra esecuzione sequenziale e parallela, capire se i vantaggi sono realmente tangibili oppure trascurabili, e preoccuparsi delle problematiche di data race tipiche di un approccio parallelo.\\
+
+Un ulteriore miglioramento possibile potrebbe consistere nella creazione di un tool che sia in grado di visualizzare graficamente i tempi di esecuzione.\\
+Questo ipotetico programma, ricevuto in input il file \texttt{times.txt}, potrebbe generare un istogramma in maniera automatica e, in base a soglie temporali preimpostate dall'utente, generare un report in cui vengano descritti quali sono quei vincoli che fungono da collo di bottiglia per il test set.
+
+\end{document}

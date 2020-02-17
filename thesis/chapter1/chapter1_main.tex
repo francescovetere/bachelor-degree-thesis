@@ -1,0 +1,144 @@
+\begin{document}
+
+\section{Il testing}
+
+Nell'ambito dell'Ingegneria del Software, si intende con il termine \emph{testing} il processo atto ad individuare errori logici a run-time e a verificare la correttezza del sistema rispetto alle specifiche iniziali concordate con il committente.\\
+In particolare:
+
+\begin{itemize}
+\item Per \textbf{errore logico} (noto come \emph{bug}) si intende una sequenza di istruzioni che, quando eseguita in determinate circostanze, porta a malfunzionamenti di vario tipo nel programma (es.: risultati inattesi o errati).\\
+Tipicamente si tratta di errori semantici, ossia errori commessi dal programmatore in fase di progettazione dell'algoritmo a causa di una comprensione non adeguata del problema.\\
+La difficoltà nell'individuare questo tipo di errori spesso risiede nel fatto che essi tipicamente sono visibili solo a run-time: non è quindi possibile stabilire con anticipo quale sarà il comportamento del programma se non eseguendolo.
+Errori più banali sono ad esempio quelli sintattici, individuabili già a compile-time spesso anche da un semplice editor di testo.\\
+
+\item Per \textbf{correttezza del sistema} si intende la congruenza che deve sussistere tra il comportamento del sistema ed i requisiti iniziali definiti dal committente: lo sviluppatore verifica, insieme al committente, che il sistema abbia tutte le caratteristiche e le qualità stabilite nelle specifiche iniziali.\\
+Si parla in questo caso di test di \emph{validazione}, una fase del processo di testing che deve necessariamente essere svolta in un momento successivo all'individuazione degli errori logici: tipicamente infatti, la validazione avviene in fase conclusiva di sviluppo.\\
+\end{itemize}
+
+\clearpage
+
+Il testing fa parte del ciclo di vita del software, ed è una delle sue fasi più importanti: se realizzato in maniera adeguata infatti, permette spesso un beneficio non trascurabile in termini di tempo e spese sostenute.\\
+Il problema principale del testing è rappresentato dal noto \emph{Teorema di Dijkstra (1969)}:\\ 
+\begin{quote}
+Il test di un sistema software può rilevare la presenza di malfunzionamenti, ma mai dimostrarne l'assenza.\\
+\end{quote} 
+L'idea è quindi quella di verificare il comportamento del sistema su un insieme di casi sufficientemente ampio da rendere plausibile che il suo comportamento sia analogo anche nei restanti casi.\\
+
+\subsection{Testing In The Large vs. Testing In The Small}
+
+L'attività di testing si può dividere in due macro-categorie, che si distinguono in base all'approccio utilizzato per condurre i test.
+
+\begin{itemize}
+\item \textbf{Testing in the large} (\emph{black-box} testing)\\
+Utilizzando l'approccio testing in the large, noto come black-box testing, si osserva il comportamento del sistema in relazione a determinati input, e si stima quanto l'output che ne risulta è distante dall'output effettivamente desiderato. \\
+Questo permette a chi effettua il testing di non dover necessariamente essere a conoscenza dei dettagli implementativi del sistema software, in quanto gli unici fatti di rilievo nel test sono le corrispondenze tra input e output.\\
+Vi sono due tipologie principali di testing in the large, distinte in base a come viene istanziato il cosiddetto \emph{test vector} (il vettore contenente l'insieme degli input forniti ad un sistema per testarlo):
+
+\begin{itemize}
+\item [$ \Blacksquare $] \textbf{Boundary Value Analysis}: in questa tipologia di black-box testing, il test vector è formato da valori limite per i domini considerati. \\
+Questo permette un'analisi in casi particolari e delicati per il sistema, ma non è ovviamente un'analisi completa.\\
+\item [$ \Blacksquare $] \textbf{Equivalence Class Partitioning}: in questa seconda tipologia di black-box testing, gli input possibili per il sistema vengono divisi per classi di equivalenza, ed infine si assembla un test vector scegliendo da ognuna di queste classi di equivalenza un valore campione.\\
+È un ottimo metodo per evitare ridondanza negli input ed ottenere un test il più possibile esaustivo.\\
+Resta da definire come accoppiare i vari parametri di input per formare dei test vector significativi: vi sono appositi criteri, detti criteri \emph{IPS} (Input Space Partitioning), che definiscono appunto come scegliere tali parametri. \\
+Ad esempio:\\
+
+\begin{itemize}
+\item [$ \Blacktriangleright $] \textbf{Each Choice}: questo criterio stabilisce che ogni valore di una classe di equivalenza dovrà comparire in almeno un caso di test;
+\item [$ \Blacktriangleright $] \textbf{All Combinations}: tutti i valori di input possibili per una classe di equivalenza vengono combinati con tutti i valori possibili per le restanti classi.\\
+\end{itemize}
+	
+\end{itemize}
+
+La scelta di un test ideale per un programma non è quindi un problema banale, come evidenziato dal \emph{Teorema di Howden (1975)}:\\
+\begin{quote}
+Non esiste un algoritmo che, dato un programma qualsiasi, generi per esso un test ideale (definito cioè da un criterio affidabile e valido).
+\end{quote}
+
+\clearpage
+
+\item \textbf{Testing in the small} (\emph{white-box} testing)\\
+L'approccio opposto è invece quello del testing in the small, in cui l'obiettivo diventa la verifica del funzionamento interno di un componente software, piuttosto che la verifica delle sue funzionalità (non a caso black-box testing e white-box testing sono anche noti, rispettivamente, come testing funzionale e testing strutturale).\\ 
+Questa tipologia di test è spesso a carico del programmatore, in quanto può essere condotta solamente conoscendo la struttura interna della porzione di codice da testare.\\
+Si distinguono 3 tipi di white-box testing, noti anche come test di \emph{coverage}:\\
+
+\begin{itemize}
+\item [$ \Blacksquare $] \textbf{Statement testing}: questo tipo di test ha l'obiettivo di testare ogni statement presente nella porzione di codice interessata (un errore infatti non può essere individuato se la parte di codice che lo contiene non viene eseguita almeno una volta).\\
+Il criterio utilizzato consiste nel selezionare un insieme di test T tale che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni istruzione elementare di P venga eseguita almeno una volta.\\
+
+\item [$ \Blacksquare $] \textbf{Branch testing}: in questo tipo di test si mira ad ottenere una copertura di tutti i possibili path generati dai branch presenti nel grafo di controllo del programma.\\
+Il criterio utilizzato consiste nel selezionare un insieme di test T tale che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato almeno una volta.\\
+
+\item [$ \Blacksquare $] \textbf{Branch and condition testing}: questo tipo di test è ancora più approfondito rispetto al precedente.\\
+L'obiettivo è sempre quello di ottenere una copertura di tutti i possibili path generati dai branch, ma in aggiunta si richiede anche la valutazione dei risultati delle condizioni composte.\\
+Il criterio utilizzato consiste nel selezionare un insieme di test T tale che, a seguito dell’esecuzione del programma P su tutti i casi di T, ogni arco del grafo di controllo di P sia attraversato e tutti i possibili valori delle condizioni composte siano valutati almeno una volta.\\
+\end{itemize}
+
+\end{itemize}
+\subsection{Fasi del processo di testing}
+Il processo di testing si articola tipicamente in 5 fasi, di seguito descritte.\\
+\begin{itemize}
+\item \textbf{Unit testing}\\
+In questa prima fase, si effettua il testing di ogni singolo modulo software visto come entità indipendente dal resto del sistema.\\
+Per simulare la presenza di componenti esterni che possono a loro volta inviare/richiedere servizi, si ricorre talvolta al \emph{mock} dei dati utilizzati, simulando quindi ipotetiche interazioni con l'esterno al fine di potersi concentrare completamente sul singolo modulo.\\
+Esistono diversi tool che permettono di fare unit testing in maniera efficace: i più noti sono quelli della famiglia xUnit, in cui \say{x} è un riferimento al linguaggio di programmazione per il quale è pensato il tool (per Java ad esempio, il framework prende il nome di JUnit).\\
+
+\item \textbf{Integration testing}\\
+La fase di integration testing rileva eventuali bug che non sono stati individuati durante la fase di unit testing, spesso a causa delle problematiche di interfacciamento tra i vari moduli che nello unit testing vengono completamente ignorate.\\
+Esistono due tipiche strategie che guidano l'integrazione dei moduli software:\\
+\begin{itemize}
+\item [$ \Blacksquare $] \textbf{Bottom-Up testing}\\
+Questa metodologia prevede che vengano testate prima le unità più piccole del sistema; una volta che il loro testing ha successo, si passa alla loro integrazione, e si procede allo stesso modo fino ad aver integrato tutti i sotto-moduli in un'unica architettura software globale.\\
+L'approccio è sicuramente semplice e graduale, ma il rischio concreto è quello di rilevare tardi errori dovuti all'integrazione fra i moduli, e ciò non è affatto banale: nel testing, come regola generale, gli errori devono essere rilevati quanto prima possibile.\\
+
+\item [$ \Blacksquare $] \textbf{Top-Down testing}\\
+Questo approccio è diametralmente opposto al precedente: il sistema viene inizialmente testato nella sua interezza, simulando i sotto-componenti tramite degli \emph{stub}, elementi che forniscono dati spesso pseudo-casuali al fine di permettere un testing globale pur in assenza delle unità di base. Questa metodologia è più onerosa sotto tutti i punti di vista, ma ha un grosso vantaggio: gli errori di integrazione vengono rilevati notevolmente in anticipo rispetto ad un approccio bottom-up.\\
+\end{itemize}
+
+\item \textbf{System testing}\\
+In questa fase il sistema viene testato e collaudato in relazione a specifici parametri di qualità. Esempi di test eseguiti in questa fase sono:
+\begin{itemize}
+\item [$ \Blacksquare $] \textbf{Stress test}: test atto a verificare le proprietà del sistema in condizioni di sovraccarico;
+\item [$ \Blacksquare $] \textbf{Robustness test}: test atto a verificare le proprietà del sistema in presenza di dati non corretti;
+\item [$ \Blacksquare $] \textbf{Security test}: test atto a verificare le proprietà di sicurezza del sistema.
+\end{itemize}
+
+\clearpage
+
+\item \textbf{Acceptance testing}\\
+In questa fase del testing, nota anche come fase di validazione, le proprietà del sistema software vengono comparate con i requisiti iniziali dettati dal committente (spesso, è proprio il cliente finale a testare il software in questa fase).\\
+Vi sono usualmente due prototipi realizzati per un prodotto software:
+
+\begin{itemize}
+\item [$ \Blacksquare $] L'\textbf{alpha test} è un primo prototipo del sistema utilizzato all'interno dell'azienda produttrice del software, al fine di rilevare ulteriori bug non evidenziati dalle fasi precedenti prima del rilascio ai clienti finali.\\
+
+\item [$ \Blacksquare $] Il \textbf{beta test} è invece il test con il committente, in cui il sistema viene testato nel suo ambiente dai clienti finali, i quali avranno la possibilità di evidenziare eventuali discrepanze con quanto inizialmente stabilito nei requisiti.\\
+\end{itemize}
+
+
+\item \textbf{Installation testing}\\
+In questa ultima fase del processo di testing, il software è ormai stato accettato formalmente dal cliente, e si procede quindi all'installazione ed alla messa in esercizio.\\
+È dunque una verifica finale del comportamento del sistema in un contesto reale, con dati non più fittizi ma presi direttamente dall'ambiente in cui opera il cliente.\\
+
+\end{itemize}
+
+\clearpage
+
+\subsection{Manual Testing vs. Automated Testing}
+Un ulteriore aspetto di fondamentale importanza nel processo di testing consiste nello scegliere se i test dovranno essere sviluppati manualmente o tramite l'ausilio di un software apposito.\\
+
+\begin{itemize}
+
+\item Nel \textbf{testing manuale}, i test cases vengono scritti direttamente dal programmatore.\\
+Il rischio di ottenere imprecisioni dovute all'errore umano è sicuramente alto, così come lo è il rischio di non ottenere una copertura efficace a causa di alcune casistiche non trattate dai test case prodotti.\\ 
+Oltre a ciò, non è da sottovalutare anche il fatto che questo approccio richiede l'impiego di una risorsa umana per diverso tempo.\\
+In contesti molto ampi, questa strategia si rivela spesso impraticabile.\\
+
+\item Nel \textbf{testing automatizzato}, i test cases vengono generati in automatico da un software.\\
+Il primo vantaggio tangibile è l'affidabilità: l'errore umano è eliminato del tutto o quasi, e la copertura dei test è garantita in fase di progettazione del software.\\
+Uno strumento automatico è inoltre molto più rapido nel generare test cases: l'utente deve semplicemente fornire in input un file (scritto tramite un'opportuna sintassi) in cui esplicita quali parti del sistema software in oggetto è interessato a testare.\\
+Sicuramente lo svantaggio principale di questo approccio è il costo iniziale per lo sviluppo del tool, ma sul lungo termine il risparmio di risorse umane, tempo, spese sostenute ed errori non è trascurabile.\\
+Esistono in commercio diversi tool per la generazione automatica dei test cases, tra i quali citiamo \emph{Tobias}, \emph{JPet} ed \emph{EvoSuite}.\\
+
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,20 @@
+Disj 138
+Disj 100
+Disj 131
+Disj 119
+Disj 114
+Disj 119
+
+Eq 151
+Eq 213
+Eq 220
+Eq 183
+Eq 211
+Eq 186
+
+Union 467
+Union 541
+Union 465
+Union 544
+Union 468
+Union 488

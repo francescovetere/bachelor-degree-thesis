@@ -1,0 +1,24 @@
+$$$ user rules $$$
+myRis(ControlTerm, Domain, Filter, Pattern, InsiemeDaUnificare) :- InsiemeDaUnificare = ris(ControlTerm in Domain, Filter, Pattern).
+
+$$$ args $$$
+//costruisco cosi' gli elementi del Ris: 
+//al primo posto, il control term
+//al secondo posto, il dominio
+//al terzo posto, il filtro
+//al quarto posto, il pattern 
+//al quinto posto, l'insieme da unificare (es.: C = ris(...) )
+
+lvar$LV1$***$***$***$***
+
+vuoto$***${}$***$***${}
+chiuso$***${X2,Y2}$***$***${X3,Y3}
+
+filtroTrue$***$***$true$***$***
+filtroFalse$***$***$false$***$***
+filtroCustom$***$***$LV1 = 4$***$***
+
+pattern1$***$***$***$LV1$***
+
+$$$ constraints $$$
+myRis$5$prefix$myRis

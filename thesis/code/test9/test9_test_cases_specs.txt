@@ -1,0 +1,12 @@
+myRis lvar chiuso filtroCustom pattern1 chiuso true
+myRis lvar chiuso filtroCustom pattern1 vuoto true
+myRis lvar chiuso filtroFalse pattern1 chiuso false
+myRis lvar chiuso filtroFalse pattern1 vuoto true
+myRis lvar chiuso filtroTrue pattern1 chiuso true
+myRis lvar chiuso filtroTrue pattern1 vuoto false
+myRis lvar vuoto filtroCustom pattern1 chiuso false
+myRis lvar vuoto filtroCustom pattern1 vuoto true
+myRis lvar vuoto filtroFalse pattern1 chiuso false
+myRis lvar vuoto filtroFalse pattern1 vuoto true
+myRis lvar vuoto filtroTrue pattern1 chiuso false
+myRis lvar vuoto filtroTrue pattern1 vuoto true

@@ -1,0 +1,15 @@
+//regole definite da utente
+$$$ user rules $$$
+
+//insiemi o relazioni del test set
+$$$ args $$$
+vuoto${}${}${}
+var$S1$S2$S3
+chiuso${X1,Y1}${X2,Y2}${X3,Y3}
+aperto${A1/B1}${A2/B2}${A3/B3}
+
+//vincoli del test set
+$$$ constraints $$$
+neq$2$infix$neq
+ndisj$2$prefix$ndisj
+nunion$3$prefix$nun

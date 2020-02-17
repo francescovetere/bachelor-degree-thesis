@@ -1,0 +1,15 @@
+$$$ global $$$
+public Constraint union4(LSet A, LSet B, LSet C, LSet D) {
+	return C.union(A, B).and(D.union(A, B));
+}
+
+$$$ local $$$
+
+$$$ args $$$
+vuoto$LSet E1 = LSet.empty()$LSet E2 = LSet.empty()$LSet E3 = LSet.empty()$LSet E4 = LSet.empty()
+var$LSet V1 = new LSet("S1")$LSet V2 = new LSet("S2")$LSet V3 = new LSet("S3")$LSet V4 = new LSet("S4")
+chiuso$LSet C1 = LSet.empty().ins(new LVar("X1")).ins(new LVar("Y1"))$LSet C2 = LSet.empty().ins(new LVar("X2")).ins(new LVar("Y2"))$LSet C3 = LSet.empty().ins(new LVar("X3")).ins(new LVar("Y3"))$LSet C4 = LSet.empty().ins(new LVar("X4")).ins(new LVar("Y4"))
+aperto$LSet A1 = new LSet("B1").ins(new LVar("A1"))$LSet A2 = new LSet("B2").ins(new LVar("A2"))$LSet A3 = new LSet("B3").ins(new LVar("A3"))$LSet A4 = new LSet("B4").ins(new LVar("A4"))
+
+$$$ constraints $$$
+union4$4$prefix

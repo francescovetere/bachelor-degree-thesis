@@ -1,0 +1,20 @@
+Disj 106
+Disj 178
+Disj 109
+Disj 110
+Disj 139
+Disj 101
+
+Eq 364
+Eq 261
+Eq 249
+Eq 228
+Eq 281
+Eq 302
+
+Union 204543
+Union 212628
+Union 200513
+Union 197747
+Union 210112
+Union 202228

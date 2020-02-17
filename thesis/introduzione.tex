@@ -1,0 +1,33 @@
+\begin{document}
+\section{Introduzione}
+
+Nell'ambito dell'Ingegneria del Software, il termine \emph{testing} denota il processo di analisi di un sistema software avente lo scopo di individuare errori logici a run-time e di verificare la correttezza del sistema rispetto alle specifiche iniziali concordate con il committente.\\
+Tale processo si colloca all'interno del ciclo di vita del software, e ne costituisce una fase fondamentale: un testing ben strutturato permette quasi sempre un beneficio non trascurabile in termini di risparmio di tempo in fase manutentiva, e di conseguenza anche in termini di spese sostenute.\\
+Avere strumenti in grado di automatizzare questo processo è spesso una scelta vincente, sia per quanto concerne l'affidabilità dei test generati, sia in termini di rapidità con cui il processo si svolge.\\
+Scopo di questo lavoro di tesi è quello di realizzare uno strumento software atto ad automatizzare parte del processo di testing per la libreria Java JSetL.\\
+Sebbene siano molti gli strumenti ad oggi disponibili per effettuare testing automatico (si veda a tal proposito [5]), in questo lavoro di tesi si è scelto di realizzare uno strumento ex novo, specifico per la libreria JSetL.\\
+
+JSetL è una libreria Java sviluppata presso il Dipartimento di Matematica e Informatica dell’Università di Parma.\\
+La libreria nasce con l'obiettivo di combinare il paradigma object-oriented di Java con alcuni dei concetti classici del paradigma logico a vincoli, tra i quali variabili logiche, unificazione, risoluzione di vincoli e non determinismo (tutti i dettagli sono reperibili in [1] e [2]).\\
+Lo strumento software realizzato in questo lavoro di tesi si focalizza sul testing dei vincoli offerti dalla libreria JSetL, analizzandone sia aspetti di correttezza semantica, sia aspetti di efficienza.\\
+L'approccio utilizzato per la realizzazione dello strumento si basa sulla creazione di due generatori automatici di casi di test, i quali forniscono in output una casistica completa di test sulla base di precise specifiche di input inserite dall'utente.
+\clearpage
+
+L'elaborato di tesi è così strutturato:
+\begin{itemize}
+    \item \textbf{Capitolo 1}: In questo capitolo verrà brevemente illustrato il concetto di testing, classificandone le varie tipologie, individuandone le diverse fasi che ne compongono il processo, ed infine analizzando pro e contro del testing manuale e di quello automatizzato (si veda a tal proposito [3]).
+    
+    \item \textbf{Capitolo 2}: In questo capitolo verrà presentato l'ambiente in cui si colloca lo strumento software realizzato: la libreria JSetL, il linguaggio CLP(\(\mathcal{SET}\))/\mathcal{L\textsubscript{\(\mathcal{BR}\)}}, l'interprete \{log\} ed infine il framework JUnit (per approfondimenti, si rimanda a [4]).
+    
+    \item \textbf{Capitolo 3}: In questo capitolo verrà presentata l'architettura dello strumento software realizzato per questo lavoro di tesi, includendo le motivazioni che hanno portato al suo sviluppo.
+
+    \item \textbf{Capitolo 4}: In questo capitolo verrà analizzato nel dettaglio lo strumento software realizzato, descrivendo sintassi e semantica dei diversi file di input/output e degli script di compilazione. Verranno infine presentati i due programmi generatori scritti in linguaggio C++.
+    
+    \item \textbf{Capitolo 5}: In questo capitolo verranno analizzati 12 test set per JSetL prodotti tramite lo strumento realizzato, fornendo una dimostrazione pratica di utilizzo dello stesso.\\
+    Verranno infine fatte alcune analisi sui tempi di esecuzione rilevati da un campione di 5 test set.
+    
+\item \textbf{Capitolo 6}: In quest'ultimo capitolo verranno tratte alcune conclusioni sul lavoro di tesi, analizzando i punti di forza dello strumento realizzato ed in particolare in che modo lo strumento potrà fornire supporto al continuo sviluppo della libreria JSetL.\\
+Infine, verrà lasciato spazio ad alcuni spunti di rilievo in merito ad eventuali lavori futuri e miglioramenti apportabili allo strumento realizzato.
+
+\end{itemize}
+\end{document}

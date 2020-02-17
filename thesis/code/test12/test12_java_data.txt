@@ -1,0 +1,16 @@
+$$$ global $$$
+
+$$$ local $$$
+
+$$$ args $$$
+vuota$LRel L1 = LRel.empty()$LRel L2 = LRel.empty()$LRel L3 = LRel.empty()
+var$LRel L4 = new LRel("L4")$LRel L5 = new LRel("L5")$LRel L6 = new LRel("L6")
+
+chiusaGrossaGround$#LRelFullySpecifiedGround_20$***$***
+chiusaPiccolaNotGround$***$LRel L7 = LRel.empty().ins(new LPair(new LVar(), new LVar()))$LRel L8 = LRel.empty().ins(new LPair(new LVar(), new LVar()))
+
+aperta$LRel L9 = new LRel().ins(new LPair(new LVar(), new LVar()))$LRel L10 = new LRel().ins(new LPair(new LVar(), new LVar()))$LRel L11 = new LRel().ins(new LPair(new LVar(), new LVar()))
+
+$$$ constraints $$$
+comp$3$infix
+inv$2$infix

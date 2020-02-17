@@ -1,0 +1,96 @@
+comp aperto aperto aperto true
+comp aperto aperto chiuso true
+comp aperto aperto var true
+comp aperto aperto vuoto true
+comp aperto chiuso aperto true
+comp aperto chiuso chiuso true
+comp aperto chiuso var true
+comp aperto chiuso vuoto true
+comp aperto var aperto true
+comp aperto var chiuso true
+comp aperto var var true
+comp aperto var vuoto true
+comp aperto vuoto aperto false
+comp aperto vuoto chiuso false
+comp aperto vuoto var true
+comp aperto vuoto vuoto true
+comp chiuso aperto aperto true
+comp chiuso aperto chiuso true
+comp chiuso aperto var true
+comp chiuso aperto vuoto true
+comp chiuso chiuso aperto true
+comp chiuso chiuso chiuso true
+comp chiuso chiuso var true
+comp chiuso chiuso vuoto true
+comp chiuso var aperto true
+comp chiuso var chiuso true
+comp chiuso var var true
+comp chiuso var vuoto true
+comp chiuso vuoto aperto false
+comp chiuso vuoto chiuso false
+comp chiuso vuoto var true
+comp chiuso vuoto vuoto true
+comp var aperto aperto true
+comp var aperto chiuso true
+comp var aperto var true
+comp var aperto vuoto true
+comp var chiuso aperto true
+comp var chiuso chiuso true
+comp var chiuso var true
+comp var chiuso vuoto true
+comp var var aperto true
+comp var var chiuso true
+comp var var var true
+comp var var vuoto true
+comp var vuoto aperto false
+comp var vuoto chiuso false
+comp var vuoto var true
+comp var vuoto vuoto true
+comp vuoto aperto aperto false
+comp vuoto aperto chiuso false
+comp vuoto aperto var true
+comp vuoto aperto vuoto true
+comp vuoto chiuso aperto false
+comp vuoto chiuso chiuso false
+comp vuoto chiuso var true
+comp vuoto chiuso vuoto true
+comp vuoto var aperto false
+comp vuoto var chiuso false
+comp vuoto var var true
+comp vuoto var vuoto true
+comp vuoto vuoto aperto false
+comp vuoto vuoto chiuso false
+comp vuoto vuoto var true
+comp vuoto vuoto vuoto true
+inv aperto aperto true
+inv aperto chiuso true
+inv aperto var true
+inv aperto vuoto false
+inv chiuso aperto true
+inv chiuso chiuso true
+inv chiuso var true
+inv chiuso vuoto false
+inv var aperto true
+inv var chiuso true
+inv var var true
+inv var vuoto true
+inv vuoto aperto false
+inv vuoto chiuso false
+inv vuoto var true
+inv vuoto vuoto true
+id aperto aperto true
+id aperto chiuso true
+id aperto var true
+id aperto vuoto false
+id chiuso aperto true
+id chiuso chiuso true
+id chiuso var true
+id chiuso vuoto false
+id var aperto true
+id var chiuso true
+id var var true
+id var vuoto true
+id vuoto aperto false
+id vuoto chiuso false
+id vuoto var true
+id vuoto vuoto true

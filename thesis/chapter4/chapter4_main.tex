@@ -1,0 +1,510 @@
+\begin{document}
+\section{Lo strumento nel dettaglio}
+
+Come visto nel capitolo precedente, lo strumento si compone di due programmi principali aventi lo scopo di generare casi di test. \\
+Entrambi i programmi ricevono in input alcuni file e ne generano in output altri: scopo di questo capitolo è quello di analizzare nel dettaglio questi file, descrivendone il loro contenuto sia a livello sintattico che a livello semantico, con relativi esempi d'utilizzo.
+Al termine del capitolo vengono infine presentati i due programmi generatori in C++, \texttt{setlog\_generator.cpp} e \texttt{jsetl\_generator.cpp}.
+
+\subsection{File di input}
+
+%%%%%%%%%%%%%%%% TO-DO %%%%%%%%%%%%%%%%%%
+% aggiungere insiemi grandi a piacere, ***, e possibilità di insrire commenti //
+
+\subsubsection{testX\_prolog\_data.txt}
+Il file \texttt{testX\_prolog\_data.txt} (dove \emph{X} è una stringa che individua in modo univoco lo specifico test set, ad es.: un numero progressivo) è fornito dall'utente, ed ha l'obiettivo di specificare quali vincoli andare a testare (es.: \texttt{=}/2, \texttt{disj}/2,...) e su quali argomenti (es.: insieme vuoto, insieme chiuso, ...).\\
+Vincoli e argomenti devono essere specificati in sintassi \{log\}.\\
+Il file deve essere scritto secondo una precisa sintassi, di seguito riportata.\\
+
+\begin{lstlisting}
+$$$ user rules $$$
+<regola_1>
+...
+
+$$$ args $$$
+<nome_arg>$<arg_1>$...$<arg_n>
+...
+
+$$$ constraints $$$
+<nome_vincolo_jsetl>$<arita'>$<prefisso/infisso>$<nome_vincolo_{log}>
+...
+\end{lstlisting}
+
+
+Il file è diviso in 3 sezioni:
+\begin{itemize}
+
+\item \texttt{\$\$\$ user rules \$\$\$} \\
+Questa sezione, che può essere eventualmente vuota, contiene una serie di regole Prolog che l'utente può specificare per creare test ad hoc di vincoli nuovi.
+Ad esempio, è possibile testare la congiunzione di due vincoli esplicitando la seguente regola:
+\begin{verbatim}
+union4(A,B,C,D) :- un(A,B,C) & un(A,B,D). 
+\end{verbatim}
+Tramite questa regola Prolog, si definisce un nuovo vincolo denominato \texttt{union4} che risulterà soddisfacibile se e solo se:\\
+\texttt{A} $\cup$ \texttt{B} $=$ \texttt{C} $\wedge$ \texttt{A} $\cup$ \texttt{B} $=$ \texttt{D} \\
+(dove il simbolo $=$ indica l'operazione di unificazione logica).\\
+
+\item \texttt{\$\$\$ args \$\$\$} \\
+Questa sezione contiene gli argomenti su cui istanziare i vincoli (es.: insiemi, relazioni, ...).
+Ogni argomento è così strutturato:\\
+
+\texttt{<nome\_arg>}: è il nome che l'utente sceglie per identificare quel tipo di argomento.\\
+
+\texttt{<arg\_i>}: è il valore i-esimo, espresso in sintassi \{log\}, che l'utente sceglie di assegnare per quello specifico argomento.\\
+
+Ad esempio, 4 tipici argomenti per vincoli insiemistici sono i seguenti:\\
+
+\begin{lstlisting}
+$$$ args $$$
+vuoto${}${}${}${}
+var$S1$S2$S3$S4
+chiuso${X1,Y1}${X2,Y2}${X3,Y3}${X4,Y4}
+aperto${A1/B1}${A2/B2}${A3/B3}${A4/B4}
+
+\end{lstlisting}
+
+Ogni argomento ha quindi un nome, seguito da una lista di possibili valori.\\
+Nell'esempio appena riportato, gli argomenti sono 4:\\
+
+\begin{itemize}
+\item [$ \Blacksquare $] Il primo argomento identifica la classe degli insiemi vuoti;
+\item [$ \Blacksquare $] Il secondo, identifica la classe degli insiemi variabili;
+\item [$ \Blacksquare $] Il terzo, identifica la classe degli insiemi di cardinalità massima prefissata (in questo caso, 2);
+\item [$ \Blacksquare $] Il quarto, identifica la classe degli insiemi parzialmente specificati (\texttt{AX} è un elemento dell’insieme, \texttt{BX} è la parte variabile).
+\end{itemize}
+
+Notare che il numero dei possibili valori non è mai casuale, ma è dettato dai vincoli scelti: volendo infatti testare un vincolo avente arità \textit{n}, è necessario fornire per ogni argomento almeno \textit{n} possibili valori. \\
+Il numero di valori deve quindi essere almeno pari alla massima arità presente nei vincoli specificati (in questo caso 4, siccome l'unico vincolo presente è il vincolo \texttt{union4}).
+
+\item \texttt{\$\$\$ constraints \$\$\$} \\
+Questa sezione contiene i vincoli che si intendono testare in questo test set (ogni vincolo specificato formerà, al termine del processo, una classe Java).\\
+Il generico vincolo è così strutturato:\\
+
+\texttt{<nome\_vincolo\_jsetl>}: è il nome del vincolo in JSetL. Il nome JSetL può essere differente dal nome \{log\}: è importante non confondere i due, in quanto le informazioni sui nomi dei vincoli sono determinanti per la corretta generazione dei test da parte dello strumento (in particolare, il nome del vincolo JSetL sarà poi riportato nel file \texttt{testX\_test\_cases\_specs.txt});\\
+
+\texttt{<arità>}: è il numero di argomenti su cui questo vincolo deve essere istanziato;\\
+
+\texttt{<prefisso/infisso>}: indica se il vincolo è in forma prefissa (\texttt{prefix}) o infissa (\texttt{infix});\\
+
+\texttt{<nome\_vincolo\_\{log\}>}: è il nome del vincolo in \{log\}.\\
+
+Esempio di alcuni vincoli insiemistici:
+\begin{lstlisting}
+$$$ constraints $$$
+eq$2$infix$=
+neq$2$infix$neq
+disj$2$prefix$disj
+union$3$prefix$un
+union4$4$prefix$union4
+\end{lstlisting}
+
+Nota: anche il vincolo \texttt{union4}, definito da utente, deve essere riportato nella lista dei vincoli.\\
+
+\end{itemize}
+
+\subsubsection{testX\_java\_data.txt}
+Il file \texttt{testX\_java\_data.txt} è il secondo ed ultimo file fornito dall'utente.\\
+La sua funzione è analoga a quella del file precedente (file \texttt{testX\_prolog\_data.txt}), con la differenza che la sintassi con cui vengono specificati vincoli e argomenti è ora quella di Java, esteso con le classi e i metodi forniti da JSetL.\\
+È molto importante che gli argomenti e i vincoli siano identici in numero e abbiano lo stesso significato sia in \texttt{testX\_prolog\_data.txt} che in \texttt{testX\_java\_data.txt}.\\
+
+\clearpage
+
+La struttura del file è la seguente:\\
+\begin{lstlisting}
+$$$ global $$$
+<dichiarazioni Java visibili in tutta la classe>
+
+$$$ local $$$
+<dichiarazioni Java locali ad ogni metodo>
+
+$$$ args $$$
+<nome_arg>$<arg_1>$...$<arg_n>
+...
+
+$$$ constraints $$$
+<nome_vincolo_jsetl>$<arita'>$<prefisso/infisso>
+...
+\end{lstlisting}
+
+
+Il file risulta quindi composto di 4 sezioni:\\
+\begin{itemize}
+\item \texttt{\$\$\$ global \$\$\$} \\
+Questa sezione contiene una lista di dichiarazioni Java visibili ad ogni singolo metodo della classe.\\
+Lo scopo di questa sezione è analogo a quello della sezione \texttt{\$\$\$ user rules \$\$\$} del file precedente: inserire regole definite da utente.\\
+La singola regola è incapsulata all'interno di un metodo Java: questa sezione contiene quindi una lista, eventualmente vuota, di metodi Java.\\
+Ad esempio, volendo riutilizzare la regola utente definita nel file precedente, occorrerebbe scrivere quanto segue:\\
+
+\begin{lstlisting}
+$$$ global $$$
+public Constraint union4(LSet A, LSet B, LSet C, LSet D) {
+    return C.union(A, B).and(D.union(A, B));
+}
+\end{lstlisting}
+
+\item \texttt{\$\$\$ local \$\$\$} \\
+Questa sezione contiene dichiarazioni Java che verranno ripetute all'inizio di ogni metodo della classe.\\
+Questa sezione è necessaria in quanto in Java esistono problematiche di scoping non presenti in Prolog.\\
+In particolare, volendo utilizzare più volte una stessa variabile all'interno di un metodo di test, è necessario dichiarare tale variabile prima di utilizzarla (cosa non vera in Prolog).\\
+
+\item \texttt{\$\$\$ args \$\$\$} \\
+Questa sezione è analoga a quella del file precedente.\\
+I nomi degli argomenti devono essere esattamente gli stessi del file precedente, mentre i singoli valori di ogni argomento devono essere convertiti con la sintassi prevista da JSetL, avendo cura di preservare la semantica data in \{log\}. Ad esempio, volendo riprendere gli argomenti presenti nel file precedente, si scriverebbe quanto segue:\\
+\begin{lstlisting}
+$$$ args $$$
+vuoto$LSet E1 = LSet.empty()$LSet E2 = LSet.empty()
+$LSet E3 = LSet.empty()$LSet E4 = LSet.empty()
+
+var$LSet V1 = new LSet("S1")$LSet V2 = new LSet("S2")
+$LSet V3 = new LSet("S3")$LSet V4 = new LSet("S4")
+
+chiuso$LSet C1 = LSet.empty().ins(new LVar("X1")).ins(new LVar("Y1"))
+$LSet C2 = LSet.empty().ins(new LVar("X2")).ins(new LVar("Y2"))
+$LSet C3 = LSet.empty().ins(new LVar("X3")).ins(new LVar("Y3"))
+$LSet C4 = LSet.empty().ins(new LVar("X4")).ins(new LVar("Y4"))
+
+aperto$LSet A1 = new LSet("B1").ins(new LVar("A1"))
+$LSet A2 = new LSet("B2").ins(new LVar("A2"))
+$LSet A3 = new LSet("B3").ins(new LVar("A3"))
+$LSet A4 = new LSet("B4").ins(new LVar("A4"))
+\end{lstlisting}
+
+\item \texttt{\$\$\$ constraints \$\$\$} \\
+Questa sezione è identica a quella del file precedente, con l'unica differenza che l'ultimo campo, quello relativo al nome del vincolo in \{log\}, è omesso (in quanto risulta un'informazione inutile giunti a questo punto del processo).\\
+Volendo quindi testare gli stessi vincoli presenti nel file precedente, si scriverebbe quanto segue:\\
+
+\begin{lstlisting}
+$$$ constraints $$$
+eq$2$infix
+neq$2$infix
+disj$2$infix
+union$3$infix
+union4$4$prefix
+\end{lstlisting}\\
+
+Nota: è necessario riportare tutti i vincoli presenti nel file \texttt{testX\_prolog\_data.txt}, anche quelli definiti da utente. \\
+Inoltre, come evidente dall'esempio, il fatto che un vincolo sia prefisso in \{log\} non implica che esso lo sia anche in JSetL.\\
+
+\end{itemize}
+
+\subsubsection{Valori speciali per gli argomenti}
+Come visto in precedenza, entrambi i file \texttt{testX\_prolog\_data.txt} e \\ \texttt{testX\_java\_data.txt} hanno una sezione dedicata alla dichiarazione degli argomenti che si intendono utilizzare nel test set.\\
+Vi sono però due tipologie di valori speciali assegnabili agli argomenti che non sono ancora state menzionate, ma che possono talvolta risultare molto utili.
+
+Una tipologia di valore speciale assegnabile ad un argomento è \texttt{***}.\\
+Inserendo questa stringa speciale in posizione i-esima tra i valori di un argomento, si ottiene come conseguenza il fatto che il vincolo non sarà mai istanziato con quell'argomento in posizione i-esima.\\
+
+Grazie a questa sintassi è possibile modellare la tipologia di test che si intende generare definendo le posizioni dei diversi argomenti (esempi di utilizzo sono riportati nel capitolo 5, ad esempio in test2, test3 e test9).\\
+
+Un'altra tipologia di valore speciale assegnabile ad un argomento è identificata da una delle seguenti 8 stringhe:\\
+\begin{itemize}
+\item \texttt{\#LSetFullySpecifiedGround\_N}
+\item \texttt{\#LSetFullySpecifiedNotGround\_N}
+\item \texttt{\#LSetPartiallySpecifiedGround\_N}
+\item \texttt{\#LSetPartiallySpecifiedNotGround\_N}
+\item \texttt{\#LRelFullySpecifiedGround\_N}
+\item \texttt{\#LRelFullySpecifiedNotGround\_N}
+\item \texttt{\#LRelPartiallySpecifiedGround\_N}
+\item \texttt{\#LRelPartiallySpecifiedNotGround\_N}
+\end{itemize}
+
+Ognuna di queste 8 stringhe rappresenta una scorciatoia per ottenere insiemi/relazioni grandi, mantenendo piccoli i file di specifica.\\
+Come intuibile dal nome, ciascuna stringa si occupa di istanziare un insieme/una relazione, completamente/parzialmente specificato/a, di $N \geq 1$ elementi ground/non-ground.\\
+L'utilizzo di queste stringhe è particolarmente utile se abbinato alla stampa dei tempi di esecuzione.\\
+Nel capitolo 5, in test11 e test12, vengono riportati esempi di utilizzo.\\
+
+\subsection{File di output intermedi}
+\subsubsection{testX\_prolog\_cases.pl}
+Il file \texttt{testX\_prolog\_cases.pl} è il primo file prodotto in output dallo strumento: in particolare, è il risultato dell'esecuzione del programma \texttt{setlog\_generator.cpp}.\\
+Il file prodotto è un programma Prolog contenente una lista di direttive di test. \\
+Ogni direttiva di test si occupa di effettuare il test, tramite l'interprete \{log\}, di un vincolo su una particolare combinazione degli argomenti.\\
+Ogni vincolo è testato su tutte le possibili combinazioni degli argomenti: in particolare, se sono stati specificati $n$ argomenti ed il vincolo attuale ha arità $m$, il numero di test case per quel vincolo sarà pari a $n^m$.\\
+
+La file \texttt{testX\_prolog\_cases.pl} è così strutturato: 
+
+\begin{lstlisting}
+
+test(Op,C,Arg1,Arg2) :-
+    setlog(C,_),!,write(Op),write(' '),write(Arg1),write(' '),
+    write(Arg2),write(true),nl.
+test(Op,_C,Arg1,Arg2) :-
+    write(Op),write(' '),write(Arg1),write(' '),
+    write(Arg2),write(false),nl.
+    
+...
+
+:- tell('testX/testX_test_cases_specs.txt').
+
+<lista (opzionale) di direttive setlog_clause>
+
+<lista dei test>
+
+:- told.
+:- halt.
+
+\end{lstlisting}
+
+Come evidente, il programma si compone di diverse sezioni:\\
+\begin{itemize}
+\item Le prime due regole sono quelle che si occupano dell'esecuzione vera e propria di ogni test: la prima è quella per il caso true, la seconda per il caso false. La regola che tra le due viene soddisfatta (notare che esse sono in mutua esclusione) ne riporta anche il risultato (true/false) su un file denominato \\ \texttt{testX\_test\_cases\_specs.txt}, che verrà dettagliato meglio nel prossimo paragrafo. Le regole in realtà non sono sempre $2$, ma crescono di numero a coppie: se nel file \texttt{testX\_prolog\_data.txt} la massima arità fosse $m$, verrebbero generate in automatico tutte le regole Prolog per gestire i casi di arità compresi tra $2$ e $m$ (generando quindi $2(m - 2)$ regole in totale).\\
+
+\item La lista di direttive \texttt{setlog\_clause} è costituita da una serie, eventualmente vuota, di direttive aventi la forma:
+\begin{verbatim}
+:- setlog_clause(<regola utente definita in testX_prolog_data.txt>).
+\end{verbatim}
+
+Questa lista di direttive ha lo scopo di informare l'interprete \{log\} riguardo i nuovi vincoli definiti da utente.\\
+Ad esempio, se l'utente avesse inserito il vincolo \texttt{union4} nel file \texttt{testX\_prolog\_data.txt}, sarebbe stata generata la seguente direttiva:
+\begin{verbatim}
+:- setlog_clause(union4(A,B,C,D) :- un(A,B,C) & un(A,B,D)).
+
+\end{verbatim}
+
+\item La lista dei test è costituita da una serie di direttive aventi la forma:
+\begin{verbatim}
+:- test(nome_vincolo_jsetl, nome_vincolo_setlog(arg1,...,argn),
+nome_arg1, ..., nome_argn).
+\end{verbatim}
+
+Esempio di test per il vincolo \texttt{disj} istanziato su due insiemi vuoti:
+\begin{verbatim}
+:- test(disj, disj({}, {}), vuoto, vuoto).
+\end{verbatim}
+
+Supponendo siano stati specificati 4 tipi di argomenti, e sapendo che il vincolo \texttt{disj} ha arità pari a $2$, si avrebbero in totale $2^4 = 16$ casi di test solamente per questo vincolo.
+Considerando che tipicamente vi sono più vincoli in uno stesso test set, si intuisce come la lista dei test sia la sezione predominante del programma \texttt{testX\_prolog\_cases.pl}.
+\end{itemize}
+
+\subsubsection{testX\_test\_cases\_specs.txt}
+Il file \texttt{testX\_test\_cases\_specs.txt} è il risultato dell'interpretazione del programma generato allo step precedente, ossia \texttt{testX\_prolog\_cases.pl}.\\
+Il file contiene la lista dei test appena eseguiti dall'interprete \{log\}, con il relativo risultato (true/false).\\
+Ogni record del file ha la seguente struttura:
+\begin{verbatim}
+<nome_vincolo_jsetl>  <arg1>  ...  <argn>  <risultato>
+\end{verbatim}
+
+\\Esempio di record per il vincolo \texttt{disj} nel caso di due insiemi vuoti:
+\begin{verbatim}
+disj  vuoto  vuoto  true
+\end{verbatim}
+
+\subsection{File di output finali: test JUnit}
+I programmi Java finali (uno per ogni vincolo) sono l'output dell'esecuzione del programma \texttt{jsetl\_generator.cpp}, il quale a sua volta riceve in input due file:\\
+\texttt{testX\_java\_data.txt} e \texttt{testX\_test\_cases\_specs.txt}.\\
+Grazie a questi due file, il programma riesce a generare una serie di metodi di test per il framework JUnit, e ad incapsularli in una classe avente il nome del vincolo che si sta testando.\\
+Ad esempio, il programma Java che testa il generico vincolo \texttt{myConstr} avrà la seguente struttura.
+\clearpage
+
+\begin{lstlisting}
+public class MyConstrTest {
+	
+    @Test
+    public void testMyConstr_NomeArg1_..._NomeArgN() {
+        Solver solver = new Solver();
+        <Dichiarazione Arg1>
+        ...
+        <Dichiarazione ArgN>    
+        solver.add(Arg1.myConstr(Arg2,...,ArgN));    
+        <assertTrue(solver.check()) / assertFalse(solver.check())>
+    }
+    
+    ...
+    
+}
+\end{lstlisting}
+
+I file Java finali sono quindi costituiti da un'unica classe, contenente una serie di metodi di test JUnit che condividono una struttura comune.\\
+Ogni metodo è marcato con l'annotazione \texttt{@Test}, che lo identifica come metodo di test JUnit.\\
+I metodi di test marcati \texttt{@Test} vengono eseguiti sequenzialmente ed in mutua esclusione, ma senza un ordine predefinito.\\
+Ogni metodo di test inizia il suo flusso d'esecuzione creando un'istanza della classe \texttt{Solver}, la classe JSetL che fornisce i metodi per aggiungere vincoli, risolverli mediante regole di riscrittura, controllarne la soddisfacibilità e mostrare lo stato attuale del constraint store.\\
+È fondamentale che ogni metodo di test dichiari una nuova istanza di \texttt{Solver}: per essere certi della correttezza del test che si sta eseguendo infatti, è necessario avere la garanzia che il constraint store sia vuoto prima dell'aggiunta del vincolo attuale allo store (fatto non garantito se si scegliesse di utilizzare un'unica istanza globale di \texttt{Solver}).\\
+Il flusso d'esecuzione del metodo di test prosegue quindi con le dichiarazioni degli argomenti, ricavate dal file \texttt{testX\_java\_data.txt}.\\
+Avendo a disposizione l'istanza della classe \texttt{Solver} e gli argomenti da utilizzare, è quindi possibile istanziare il vincolo con gli argomenti dichiarati e aggiungerlo al constraint store: questo è il compito del metodo \texttt{add} della classe \texttt{Solver}.\\
+Infine, il metodo \texttt{check()} della classe \texttt{Solver} si occupa di risolvere il vincolo mediante regole di riscrittura e restituirne il risultato (true o false).\\
+Come visto in precedenza però, il risultato di ogni caso di test è già noto dal file \texttt{testX\_test\_cases\_specs.txt}: questa informazione viene sfruttata per scegliere quale tipo di assert inserire nel metodo di test attuale (\texttt{assertTrue} o \texttt{assertFalse}).\\
+
+Esempio di metodo di test per il vincolo \texttt{disj} istanziato su due insiemi vuoti:\\
+
+\begin{lstlisting}
+@Test
+public void testDisj_Vuoto_Vuoto() {
+    Solver solver = new Solver();
+    LSet E1 = LSet.empty();
+    LSet E2 = LSet.empty();
+    solver.add(E1.disj(E2));
+    assertTrue(solver.check());
+}
+\end{lstlisting}
+
+Una volta ottenuti i file Java, è sufficiente caricarli nel proprio IDE, assicurarsi che sia presente il framework JUnit, ed eseguire ogni programma in modalità \emph{\say{JUnit Test}} (in Eclipse: tasto destro sul file Java $\rightarrow$ Run As $\rightarrow$ JUnit Test).
+
+Come accennato nel capitolo 3, un'eventuale incongruenza tra i risultati forniti dall'interprete \{log\} (tramite il file \texttt{testX\_test\_cases\_specs.txt}) e quelli calcolati ora da JUnit, causa un errore visibile a tempo di esecuzione: l'IDE Java utilizzato segnalerebbe il fatto che uno o più metodi di test contengono delle asserzioni contraddittorie (in particolare, verrebbe sollevata un'eccezione di tipo \texttt{java.lang.AssertionError}).
+
+\subsection{Tempi d'esecuzione}
+Lo strumento offre, in parallelo al testing di soddisfacibilità dei vincoli, anche la possibilità di misurare le prestazioni dei test eseguiti.\\
+Il calcolo dei tempi è particolarmente utile se abbinato al caso di insiemi/relazioni grandi: aumentando le dimensioni degli argomenti, è facile andare ad individuare quali vincoli scalano bene e quali no. \\
+
+La stampa dei tempi è totalmente automatizzata, ed è attivabile dall'utente in fase di esecuzione del programma \texttt{jsetl\_generator.cpp}.\\
+Nel caso in cui l'utente scelga di attivarla, le classi Java di test generate dallo strumento vengono leggermente modificate:\\
+
+\begin{lstlisting}
+public class MyConstrTest {
+	
+    //somma dei tempi parziali di tutti i metodi
+    private static long totTime = 0;
+
+    @Test
+    public void testMyConstr_NomeArg1_..._NomeArgN() {
+        //timer start
+        long start = System.currentTimeMillis();
+		
+        Solver solver = new Solver();
+        <Dichiarazione Arg1>
+        ...
+        <Dichiarazione ArgN>    
+        solver.add(Arg1.myConstr(Arg2,...,ArgN));    
+        <assertTrue(solver.check()) / assertFalse(solver.check())>
+        
+        //timer stop
+        long stop = System.currentTimeMillis();
+        totTime += (stop - start);
+    }
+    
+    //...
+    
+    @AfterClass
+    public static void printTotTime() {
+        PrintWriter writer;
+        try {
+            String dir  = "my/path/.../";
+            writer = new PrintWriter(
+                new FileOutputStream(
+                    new File(dir +  "times.txt"), true
+                    )
+                );
+            writer.println("MyConstr" + " " + totTime);
+            writer.close();
+        } catch (Throwable t) {t.printStackTrace();}
+
+    }
+    
+}
+\end{lstlisting}
+
+Come evidente, è stata inserita una nuova variabile statica \texttt{totTime} inizializzata a $0$, che conterrà il tempo di esecuzione totale dell'intera classe, espresso in millisecondi. Ogni metodo registra due istanti temporali, uno all'inizio del test ed uno al termine. Calcolando la differenza tra l'ultimo ed il primo si ottiene il tempo di esecuzione del metodo appena eseguito.\\
+Come ultima istruzione, ogni metodo incrementa la variabile \texttt{totTime} con il suo tempo parziale appena calcolato. \\
+
+Quando ogni metodo marcato come \texttt{@Test} è stato eseguito, JUnit prevede che vengano eseguiti eventuali metodi marcati come \texttt{@AfterClass}.\\
+Per questo motivo è stato inserito il metodo \texttt{printTotTime()}: esso ha il compito di stampare su un file denominato \texttt{times.txt} il tempo di esecuzione totale della classe, contenuto nella variabile \texttt{totTime}.\\
+
+Le scritture avvengono in modalità \emph{append}: per ogni esecuzione del programma Java quindi, verrà prodotto un nuovo record nel file \texttt{times.txt}.\\
+
+Ogni record del file \texttt{times.txt} ha la seguente forma:
+\begin{verbatim}
+<nome_vincolo_jsetl>  <tempo_di_esecuzione>
+\end{verbatim}
+
+\subsection{Gli script di automazione}
+Come visto in precedenza, il processo di generazione dei test si compone di diversi step. Per rendere lo strumento più user-friendly, è stato inoltre creato uno script avente lo scopo di automatizzare compilazione ed esecuzione dei diversi programmi: in questo modo si ha un notevole risparmio di tempo e viene minimizzato il più possibile l'eventuale errore umano.\\
+
+Lo script è scritto in due versioni, una per sistemi Windows, l'altra per sistemi Linux. Entrambi svolgono gli stessi step in successione, come raffigurato all'inizio del capitolo 3.
+
+\clearpage
+
+Vengono di seguito riportati i due script.\\
+
+File \texttt{script\_linux.bash}
+\lstinputlisting{code/script_linux.bash}
+
+\clearpage
+
+File \texttt{script\_windows.bat}
+\lstinputlisting{code/script_windows.bat}
+
+\clearpage
+
+\subsection{Programmi generatori}
+
+Come visto in precedenza, i programmi \texttt{setlog\_generator.cpp} e \texttt{jsetl\_generator.cpp} costituiscono la parte più importante dello strumento, in quanto fungono da generatori di casi di test a partire da uno o più file di specifica.\\
+Entrambi sono scritti in linguaggio C++: in particolare si attengono allo standard C++98, per garantire una maggiore retro-compatibilità.\\
+
+Vengono di seguito descritti i due programmi.\\
+
+\subsubsection{setlog\_generator.cpp}
+Il programma \texttt{setlog\_generator.cpp} inizia il suo flusso d'esecuzione effettuando il parsing del file \texttt{testX\_prolog\_data.txt} (la cui sintassi è analizzata nel capitolo 4.1.1).\\
+Questo parsing è realizzato attraverso un loop che cicla su ogni record del file di testo, e termina non appena viene raggiunto il carattere speciale \texttt{EOF (End Of File)}. \\
+In base al contenuto del record, il loop prevede azioni differenti:
+\begin{itemize}
+\item Se viene letto un \texttt{commento}, si ignora il record corrente e si passa al successivo;
+
+\item Se viene letta la stringa \texttt{\$\$\$ user rules \$\$\$}, tutti i record che seguono (a meno dei commenti e dei separatori di sezione) verranno letti come regole utente.\\
+Una regola utente viene trattata in modo molto semplice: essa viene incapsulata in una direttiva \texttt{setlog\_clause}, e la nuova stringa così generata viene aggiunta in modalità append ad una stringa globale denominata \texttt{user\_defined\_rules}, che conterrà quindi la lista delle direttive \texttt{setlog\_clause} di tutte le regole definite da utente.
+
+\item Se viene letta la stringa \texttt{\$\$\$ args \$\$\$}, tutti i record che seguono (a meno dei commenti e dei separatori di sezione) verranno letti come argomenti.\\
+Gli argomenti sono memorizzati tramite la struttura dati \texttt{map}.\\
+Ogni elemento della mappa è una coppia $\langle$chiave, valore$\rangle$, in cui la chiave è rappresentata dal nome dell'argomento, il valore è rappresentato dal vettore dei valori definiti per quell'argomento.
+
+\item Se viene letta la stringa \texttt{\$\$\$ constraints \$\$\$}, tutti i record che seguono (a meno dei commenti e dei separatori di sezione) verranno letti come vincoli.\\
+I vincoli sono memorizzati tramite la struttura dati \texttt{vector}. \\
+Ogni elemento del vettore è una \texttt{struct} contenente i 4 campi di tipo stringa definiti nel capitolo 4.1.1.\\
+
+\end{itemize}
+
+Una volta terminato il parsing del file \texttt{testX\_prolog\_data.txt}, il flusso d'esecuzione procede con la scrittura del file \texttt{testX\_prolog\_cases.pl}.\\
+
+La parte più onerosa di questa operazione di scrittura è sicuramente rappresentata dal loop che si occupa della generazione dei singoli casi di test.\\
+Il loop procede estraendo i vincoli dal loro vettore globale, e termina quando non vi sono più vincoli da esaminare nel vettore.\\
+Una volta estratto il vincolo attuale, si procede associando questo vincolo a tutte le possibili combinazioni di valori degli argomenti: ogni combinazione, rappresenta un singolo caso di test.\\
+
+\clearpage
+
+La generazione di tutte le possibili combinazioni è la sezione fondamentale del programma \texttt{setlog\_generator.cpp}, ed è realizzata tramite il calcolo del prodotto cartesiano fra i vettori degli argomenti.\\
+Per maggiore chiarezza, viene di seguito riportata la funzione che si occupa di tale calcolo:\\
+
+\begin{lstlisting}
+/* 
+ * Dato in input il vector { {"A1","A2"}, {"{X1, X2}","{X3, X4}"} } 
+ * restituisce in output il vector { {"A1", "{X1, X2}"}, {"A1", "{X3, X4}"}, {"A2", "{X1, X2}"}, {"A2", "{X3, X4}"} }
+ */
+
+vector<vector<string> > cart_product (const vector<vector<string> >& v) {
+    vector<vector<string> > s;
+
+    s.resize(1);
+
+    for(unsigned int i = 0; i < v.size(); ++i) {
+        vector<string> u = v[i];
+
+        vector<vector<string> > r;
+        for (unsigned int j = 0; j < s.size(); ++j) {
+            vector<string> x = s[j];
+            for (unsigned int k = 0; k < u.size(); ++k) {
+                string y = u[k];
+                r.push_back(x);
+                r.back().push_back(y);
+            }
+        }
+        s.swap(r);
+    }
+    return s;
+}
+\end{lstlisting}
+
+\subsubsection{jsetl\_generator.cpp}
+Il programma \texttt{jsetl\_generator.cpp} inizia il suo flusso d'esecuzione effettuando il parsing del file \texttt{testX\_java\_data.txt} (la cui sintassi è analizzata nel capitolo 4.1.2), in maniera del tutto analoga al parsing che \texttt{setlog\_generator.cpp} effettua su \texttt{testX\_prolog\_data.txt}.\\
+
+La differenza principale consiste nella generazione dei casi di test: mentre in \\ \texttt{setlog\_generator.cpp} è necessario calcolare esplicitamente tutte le possibili combinazioni degli argomenti, in \texttt{jsetl\_generator.cpp} ciò non è più necessario, in quanto il file \texttt{testX\_test\_cases\_specs.txt} contiene già tutte le informazioni necessarie: una serie di record contenenti i vincoli, tutte le possibili combinazioni di argomenti e, per ogni combinazione, il risultato prodotto dall'interprete \{log\}.\\
+Il flusso d'esecuzione di \texttt{jsetl\_generator.cpp} procede infatti con il parsing del file \texttt{testX\_test\_cases\_specs.txt} (la cui sintassi è analizzata nel capitolo 4.2.2).\\
+Ogni record letto, corrisponde alla specifica di un metodo di test Java.\\
+Il singolo metodo di test contiene parti di codice costanti, presenti in tutti i metodi, e parti di codice variabili, le quali dipendono dai tipi di argomenti e dal risultato del test.\\
+
+Per gestire le parti variabili, si interroga la mappa degli argomenti costruita in fase di parsing del file \texttt{testX\_java\_data.txt}: in particolare, per ogni nome di argomento incontrato durante la lettura del record corrente, si ricercano nella mappa quali sono i possibili valori assegnabili (ossia una delle sintassi Java esplicitate dall'utente per quel tipo di argomento). \\
+In questo modo, ogni possibile valore è accoppiato con tutti i restanti possibili valori. Ottenuti questi valori tramite mappatura, si hanno tutti gli elementi per poter creare il metodo di test Java (tenendo conto dell'arità del vincolo corrente e della sua forma infissa/prefissa).\\
+
+Una volta generato il singolo metodo di test, esso verrà aggiunto alla classe Java che si occupa del vincolo corrente.\\
+Terminata la generazione dei metodi di test relativi ad un vincolo, la procedura di generazione prosegue analizzando i successivi vincoli, e termina non appena i vincoli da analizzare sono esauriti.\\
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\end{document}

@@ -1,0 +1,201 @@
+\documentclass[12pt,a4paper,oneside,openright]{article}
+\linespread{1.3}
+\usepackage{amsmath}
+\usepackage{empheq}
+\usepackage[theorems,skins,most]{tcolorbox}
+\usepackage{mathtools}
+\usepackage{bm}
+\bibliographystyle{plain}
+\usepackage[options]{natbib}
+
+\newtcolorbox{mymathbox}[1][]{colback=white, sharp corners, #1}
+%\newtcolorbox{mymathbox}[1][]{colback=white, sharp corners}
+\usepackage{lipsum} % for creating dummy text
+%\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+%\usepackage{import}
+\usepackage[italian]{babel}
+\usepackage{subfiles}
+\usepackage{fancyhdr}
+\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode}
+%\usepackage[linesnumbered, ruled]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{listings}
+ \usepackage{natbib}
+ \usepackage[dvipsnames]{xcolor}
+ 
+\definecolor{arsenic}{rgb}{0.35, 0.35, 0.35}
+ \lstset{
+ frame=bt,
+ %frameround=tttt,
+%mathescape=true,
+  %language=Java,
+  breaklines=true,
+  showstringspaces=false,
+  columns=flexible,
+  numbers=none,
+  %commentstyle=\color{MidnightBlue},
+ %stringstyle=\color{gray},
+  %stringstyle=\color{purple},
+  basicstyle=\footnotesize\ttfamily,
+  %literate=*{\$}{{\textcolor{arsenic}{\$}}}{1},
+  tabsize=4
+}
+
+\usepackage{geometry}
+
+ % Package aggiunti
+  \usepackage{amssymb}				% matematica
+  \usepackage{amsmath}				% matematica
+  \usepackage{amsthm}				% matematica -> stile teoremi, def, proposizioni
+  \usepackage{amsbsy}				% for bold math symbol
+  \usepackage{cases}				% sistemi di equazioni con numerazione e sottonumerazione
+  \usepackage{booktabs}				% tabelle con toprule ecc
+  \usepackage{textcomp}				% per il simbolo di gradi
+  \usepackage{subfig}
+  \usepackage{scalerel}             % per riscalare i sotto item
+  \usepackage{dirtytalk}			% per usare /say{"..."}, ovvero "..."
+
+\newcommand\Blacksquare{\scaleobj{0.6}{\blacksquare}} %riscalo per i sotto item
+\newcommand\Blacktriangleright{\scaleobj{0.9}{\blacktriangleright}} %riscalo per i sotto sotto item
+
+\renewcommand*\contentsname{Summary}
+\begin{document}
+
+\newgeometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+\begin{figure}
+
+    \centering
+    \includegraphics[scale=0.2]{images/logo_unipr.png}
+    \label{fig:my_label}
+\end{figure}
+
+
+
+\begin{titlepage}
+    
+   \begin{center}
+      \LARGE\texttm{Dipartimento di Scienze \\Matematiche, Fisiche e Informatiche}\\
+       \vspace*{\stretch{0.25}}
+      \Large\texttm{Corso di Laurea in Informatica}\\
+      \vspace*{\stretch{1.5}}
+      \LARGE\textbf{
+    	Generazione automatica ed esecuzione di casi di test per la libreria Java JSetL
+    	}
+      \vspace*{\stretch{2.0}}
+      
+      
+      \large\textbf{
+      	Automatic generation and execution of test cases for the Java library JSetL
+      	}
+      \vspace*{\stretch{2.0}}
+    \end{center}
+    \\[3cm]
+   
+    \begin{minipage}[t]{0.5\textwidth}
+\begin{flushleft}
+\Large{Relatore:} \\
+            \large\textbf{Prof. Gianfranco Rossi}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.5\textwidth}
+\begin{flushright}
+\Large{Candidato:} \\
+            \large\textbf{Francesco Vetere}
+\end{flushright}
+\end{minipage}\\
+
+\begin{center}
+        \vspace*{\stretch{1.0}}
+        \Large\texttm{Anno Accademico 2018/2019}
+\end{center}
+    
+\end{titlepage}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\restoregeometry
+\clearpage
+\pagestyle{playn}
+\begin{flushright}
+\begin{dedication}
+%\textit{$ \langle $ dedica $ \rangle $}
+\textit{Ai miei genitori, Giusy e Domenico.\\A mia sorella, Giulia.}
+\end{dedication}
+\end{flushright}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\clearpage
+
+\tableofcontents
+
+\pagestyle{fancy}
+\headheight 15pt
+\renewcommand{\chaptermark}[1]{\markboth{{\chaptername}\ \thechapter.\hspace{1em}#1}{}}
+\renewcommand{\footrulewidth}{0pt}
+
+
+%\lhead{}
+%\rhead[\fancyplain{}{}]{\fancyplain{}{\leftmark}} 
+%\chead{}
+%\lfoot{}
+%\cfoot{\thepage}
+%\rfoot{}
+
+
+
+\clearpage
+\setlength{\parindent}{0in}
+
+\setcounter{secnumdepth}{0} % numero solo le section
+\subfile{introduzione}
+\setcounter{secnumdepth}{3} % numero fino alle subsubsection
+
+\clearpage 
+\subfile{chapter1/chapter1_main}
+
+\clearpage 
+\subfile{chapter2/chapter2_main}
+
+\clearpage
+\subfile{chapter3/chapter3_main}
+
+\clearpage
+\subfile{chapter4/chapter4_main}
+
+\clearpage
+\subfile{chapter5/chapter5_main}
+
+\clearpage
+\subfile{chapter6/chapter6_main}
+
+\setcounter{secnumdepth}{0} % numero solo le section
+\clearpage
+\subfile{ringraziamenti}
+\setcounter{secnumdepth}{3} % numero fino alle subsubsection
+
+\clearpage
+%\addcontentsline{toc}{section}{Riferimenti bibliografici}
+\subfile{bibliography}
+\addcontentsline{toc}{section}{Riferimenti bibliografici}
+
+\end{document}

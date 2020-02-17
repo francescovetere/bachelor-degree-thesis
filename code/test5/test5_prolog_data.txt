@@ -1,0 +1,12 @@
+$$$ user rules $$$
+
+$$$ args $$$
+vuoto${}${}${}
+var$S1$S2$S3
+chiuso${X1,Y1}${X2,Y2}${X3,Y3}
+aperto${A1/B1}${A2/B2}${A3/B3}
+
+$$$ constraints $$$
+diff$3$prefix$diff
+inters$3$prefix$inters
+subset$2$prefix$subset

@@ -1,0 +1,9 @@
+package JSetL.test.constraintTest;
+
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.AfterClass; 		//calcolo dei tempi
+import java.io.PrintWriter; 		//stampa dei tempi
+import java.io.File;			//stampa dei tempi
+import java.io.FileOutputStream;	//stampa dei tempi
+import JSetL.*;

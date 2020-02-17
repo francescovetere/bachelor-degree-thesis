@@ -1,0 +1,112 @@
+eq aperto aperto true
+eq aperto chiusoPiccoloNonGround true
+eq aperto var true
+eq aperto vuoto false
+eq chiusoGrossoGround aperto true
+eq chiusoGrossoGround chiusoPiccoloNonGround false
+eq chiusoGrossoGround var true
+eq chiusoGrossoGround vuoto false
+eq var aperto true
+eq var chiusoPiccoloNonGround true
+eq var var true
+eq var vuoto true
+eq vuoto aperto false
+eq vuoto chiusoPiccoloNonGround false
+eq vuoto var true
+eq vuoto vuoto true
+neq aperto aperto true
+neq aperto chiusoPiccoloNonGround true
+neq aperto var true
+neq aperto vuoto true
+neq chiusoGrossoGround aperto true
+neq chiusoGrossoGround chiusoPiccoloNonGround true
+neq chiusoGrossoGround var true
+neq chiusoGrossoGround vuoto true
+neq var aperto true
+neq var chiusoPiccoloNonGround true
+neq var var true
+neq var vuoto true
+neq vuoto aperto true
+neq vuoto chiusoPiccoloNonGround true
+neq vuoto var true
+neq vuoto vuoto false
+disj aperto aperto true
+disj aperto chiusoPiccoloNonGround true
+disj aperto var true
+disj aperto vuoto true
+disj chiusoGrossoGround aperto true
+disj chiusoGrossoGround chiusoPiccoloNonGround true
+disj chiusoGrossoGround var true
+disj chiusoGrossoGround vuoto true
+disj var aperto true
+disj var chiusoPiccoloNonGround true
+disj var var true
+disj var vuoto true
+disj vuoto aperto true
+disj vuoto chiusoPiccoloNonGround true
+disj vuoto var true
+disj vuoto vuoto true
+union aperto aperto aperto true
+union aperto aperto chiusoPiccoloNonGround true
+union aperto aperto var true
+union aperto aperto vuoto false
+union aperto chiusoPiccoloNonGround aperto true
+union aperto chiusoPiccoloNonGround chiusoPiccoloNonGround true
+union aperto chiusoPiccoloNonGround var true
+union aperto chiusoPiccoloNonGround vuoto false
+union aperto var aperto true
+union aperto var chiusoPiccoloNonGround true
+union aperto var var true
+union aperto var vuoto false
+union aperto vuoto aperto true
+union aperto vuoto chiusoPiccoloNonGround true
+union aperto vuoto var true
+union aperto vuoto vuoto false
+union chiusoGrossoGround aperto aperto true
+union chiusoGrossoGround aperto chiusoPiccoloNonGround false
+union chiusoGrossoGround aperto var true
+union chiusoGrossoGround aperto vuoto false
+union chiusoGrossoGround chiusoPiccoloNonGround aperto true
+union chiusoGrossoGround chiusoPiccoloNonGround chiusoPiccoloNonGround false
+union chiusoGrossoGround chiusoPiccoloNonGround var true
+union chiusoGrossoGround chiusoPiccoloNonGround vuoto false
+union chiusoGrossoGround var aperto true
+union chiusoGrossoGround var chiusoPiccoloNonGround false
+union chiusoGrossoGround var var true
+union chiusoGrossoGround var vuoto false
+union chiusoGrossoGround vuoto aperto true
+union chiusoGrossoGround vuoto chiusoPiccoloNonGround false
+union chiusoGrossoGround vuoto var true
+union chiusoGrossoGround vuoto vuoto false
+union var aperto aperto true
+union var aperto chiusoPiccoloNonGround true
+union var aperto var true
+union var aperto vuoto false
+union var chiusoPiccoloNonGround aperto true
+union var chiusoPiccoloNonGround chiusoPiccoloNonGround true
+union var chiusoPiccoloNonGround var true
+union var chiusoPiccoloNonGround vuoto false
+union var var aperto true
+union var var chiusoPiccoloNonGround true
+union var var var true
+union var var vuoto true
+union var vuoto aperto true
+union var vuoto chiusoPiccoloNonGround true
+union var vuoto var true
+union var vuoto vuoto true
+union vuoto aperto aperto true
+union vuoto aperto chiusoPiccoloNonGround true
+union vuoto aperto var true
+union vuoto aperto vuoto false
+union vuoto chiusoPiccoloNonGround aperto true
+union vuoto chiusoPiccoloNonGround chiusoPiccoloNonGround true
+union vuoto chiusoPiccoloNonGround var true
+union vuoto chiusoPiccoloNonGround vuoto false
+union vuoto var aperto true
+union vuoto var chiusoPiccoloNonGround true
+union vuoto var var true
+union vuoto var vuoto true
+union vuoto vuoto aperto false
+union vuoto vuoto chiusoPiccoloNonGround false
+union vuoto vuoto var true
+union vuoto vuoto vuoto true

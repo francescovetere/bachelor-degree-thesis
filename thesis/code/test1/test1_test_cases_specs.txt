@@ -1,0 +1,96 @@
+eq aperto aperto true
+eq aperto chiuso true
+eq aperto var true
+eq aperto vuoto false
+eq chiuso aperto true
+eq chiuso chiuso true
+eq chiuso var true
+eq chiuso vuoto false
+eq var aperto true
+eq var chiuso true
+eq var var true
+eq var vuoto true
+eq vuoto aperto false
+eq vuoto chiuso false
+eq vuoto var true
+eq vuoto vuoto true
+disj aperto aperto true
+disj aperto chiuso true
+disj aperto var true
+disj aperto vuoto true
+disj chiuso aperto true
+disj chiuso chiuso true
+disj chiuso var true
+disj chiuso vuoto true
+disj var aperto true
+disj var chiuso true
+disj var var true
+disj var vuoto true
+disj vuoto aperto true
+disj vuoto chiuso true
+disj vuoto var true
+disj vuoto vuoto true
+union aperto aperto aperto true
+union aperto aperto chiuso true
+union aperto aperto var true
+union aperto aperto vuoto false
+union aperto chiuso aperto true
+union aperto chiuso chiuso true
+union aperto chiuso var true
+union aperto chiuso vuoto false
+union aperto var aperto true
+union aperto var chiuso true
+union aperto var var true
+union aperto var vuoto false
+union aperto vuoto aperto true
+union aperto vuoto chiuso true
+union aperto vuoto var true
+union aperto vuoto vuoto false
+union chiuso aperto aperto true
+union chiuso aperto chiuso true
+union chiuso aperto var true
+union chiuso aperto vuoto false
+union chiuso chiuso aperto true
+union chiuso chiuso chiuso true
+union chiuso chiuso var true
+union chiuso chiuso vuoto false
+union chiuso var aperto true
+union chiuso var chiuso true
+union chiuso var var true
+union chiuso var vuoto false
+union chiuso vuoto aperto true
+union chiuso vuoto chiuso true
+union chiuso vuoto var true
+union chiuso vuoto vuoto false
+union var aperto aperto true
+union var aperto chiuso true
+union var aperto var true
+union var aperto vuoto false
+union var chiuso aperto true
+union var chiuso chiuso true
+union var chiuso var true
+union var chiuso vuoto false
+union var var aperto true
+union var var chiuso true
+union var var var true
+union var var vuoto true
+union var vuoto aperto true
+union var vuoto chiuso true
+union var vuoto var true
+union var vuoto vuoto true
+union vuoto aperto aperto true
+union vuoto aperto chiuso true
+union vuoto aperto var true
+union vuoto aperto vuoto false
+union vuoto chiuso aperto true
+union vuoto chiuso chiuso true
+union vuoto chiuso var true
+union vuoto chiuso vuoto false
+union vuoto var aperto true
+union vuoto var chiuso true
+union vuoto var var true
+union vuoto var vuoto true
+union vuoto vuoto aperto false
+union vuoto vuoto chiuso false
+union vuoto vuoto var true
+union vuoto vuoto vuoto true

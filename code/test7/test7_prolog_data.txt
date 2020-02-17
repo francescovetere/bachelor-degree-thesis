@@ -1,0 +1,17 @@
+//regole definite da utente
+$$$ user rules $$$
+
+//insiemi o relazioni del test set
+$$$ args $$$
+lVarNotBound$***$N
+lVarBound3$***$3
+lVarBound2$***$2
+lVarBound1$***$1
+vuoto${}$***
+var$X$***
+chiuso${A,B}$***
+aperto${A/B}$***
+
+//vincoli del test set
+$$$ constraints $$$
+size$2$prefix$size

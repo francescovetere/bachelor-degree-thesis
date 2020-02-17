@@ -1,0 +1,14 @@
+$$$ user rules $$$
+
+$$$ args $$$
+vuota${}${}${}
+var$A$B$C
+
+chiusaGrossaGround$#LRelFullySpecifiedGround_20$***$***
+chiusaPiccolaNotGround$***${[X1, X2]}${[X3, X4]}
+
+aperta${[X3,Y3]/R1}${[X4,Y4]/R2}${[X5,Y5]/R3}
+
+$$$ constraints $$$
+comp$3$prefix$comp
+inv$2$prefix$inv

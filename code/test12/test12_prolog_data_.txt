@@ -1,0 +1,13 @@
+$$$ user rules $$$
+
+$$$ args $$$
+vuota${}${}
+var$A$B
+
+chiusaGrossaGround$#LRelFullySpecifiedGround_20$***
+chiusaPiccolaNotGround$***${[X1, X2]}
+
+aperto${[X3,Y3]/R1}${A2/B2}
+
+$$$ constraints $$$
+id$2$prefix$id

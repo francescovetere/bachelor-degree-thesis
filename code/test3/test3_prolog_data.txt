@@ -1,0 +1,12 @@
+$$$ user rules $$$
+
+$$$ args $$$
+var$A$B$B
+chiuso${A}${A,A}${A,B,C}
+aperto1$***${X/A}$***
+aperto2$***${A/R}$***
+
+$$$ constraints $$$
+eq$2$infix$=
+disj$2$prefix$disj
+union$3$prefix$un

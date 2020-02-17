@@ -1,0 +1,96 @@
+neq aperto aperto true
+neq aperto chiuso true
+neq aperto var true
+neq aperto vuoto true
+neq chiuso aperto true
+neq chiuso chiuso true
+neq chiuso var true
+neq chiuso vuoto true
+neq var aperto true
+neq var chiuso true
+neq var var true
+neq var vuoto true
+neq vuoto aperto true
+neq vuoto chiuso true
+neq vuoto var true
+neq vuoto vuoto false
+ndisj aperto aperto true
+ndisj aperto chiuso true
+ndisj aperto var true
+ndisj aperto vuoto false
+ndisj chiuso aperto true
+ndisj chiuso chiuso true
+ndisj chiuso var true
+ndisj chiuso vuoto false
+ndisj var aperto true
+ndisj var chiuso true
+ndisj var var true
+ndisj var vuoto false
+ndisj vuoto aperto false
+ndisj vuoto chiuso false
+ndisj vuoto var false
+ndisj vuoto vuoto false
+nunion aperto aperto aperto true
+nunion aperto aperto chiuso true
+nunion aperto aperto var true
+nunion aperto aperto vuoto true
+nunion aperto chiuso aperto true
+nunion aperto chiuso chiuso true
+nunion aperto chiuso var true
+nunion aperto chiuso vuoto true
+nunion aperto var aperto true
+nunion aperto var chiuso true
+nunion aperto var var true
+nunion aperto var vuoto true
+nunion aperto vuoto aperto true
+nunion aperto vuoto chiuso true
+nunion aperto vuoto var true
+nunion aperto vuoto vuoto true
+nunion chiuso aperto aperto true
+nunion chiuso aperto chiuso true
+nunion chiuso aperto var true
+nunion chiuso aperto vuoto true
+nunion chiuso chiuso aperto true
+nunion chiuso chiuso chiuso true
+nunion chiuso chiuso var true
+nunion chiuso chiuso vuoto true
+nunion chiuso var aperto true
+nunion chiuso var chiuso true
+nunion chiuso var var true
+nunion chiuso var vuoto true
+nunion chiuso vuoto aperto true
+nunion chiuso vuoto chiuso true
+nunion chiuso vuoto var true
+nunion chiuso vuoto vuoto true
+nunion var aperto aperto true
+nunion var aperto chiuso true
+nunion var aperto var true
+nunion var aperto vuoto true
+nunion var chiuso aperto true
+nunion var chiuso chiuso true
+nunion var chiuso var true
+nunion var chiuso vuoto true
+nunion var var aperto true
+nunion var var chiuso true
+nunion var var var true
+nunion var var vuoto true
+nunion var vuoto aperto true
+nunion var vuoto chiuso true
+nunion var vuoto var true
+nunion var vuoto vuoto true
+nunion vuoto aperto aperto true
+nunion vuoto aperto chiuso true
+nunion vuoto aperto var true
+nunion vuoto aperto vuoto true
+nunion vuoto chiuso aperto true
+nunion vuoto chiuso chiuso true
+nunion vuoto chiuso var true
+nunion vuoto chiuso vuoto true
+nunion vuoto var aperto true
+nunion vuoto var chiuso true
+nunion vuoto var var true
+nunion vuoto var vuoto true
+nunion vuoto vuoto aperto true
+nunion vuoto vuoto chiuso true
+nunion vuoto vuoto var true
+nunion vuoto vuoto vuoto false

@@ -1,0 +1,16 @@
+$$$ global $$$
+
+$$$ local $$$
+
+$$$ args $$$
+lVarNotBound$***$IntLVar LVNB = new IntLVar("N")
+lVarBound3$***$IntLVar LVB3 = new IntLVar(3)
+lVarBound2$***$IntLVar LVB2 = new IntLVar(2)
+lVarBound1$***$IntLVar LVB1 = new IntLVar(1)
+vuoto$LSet E = LSet.empty()$***
+var$LSet V = new LSet("V")$***
+chiuso$LSet C = LSet.empty().ins(new LVar("A")).ins(new LVar("B"))$***
+aperto$LSet A = new LSet("B1").ins(new LVar("A1"))$***
+
+$$$ constraints $$$
+size$2$infix

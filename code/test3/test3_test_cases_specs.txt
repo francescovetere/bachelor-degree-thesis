@@ -1,0 +1,32 @@
+eq chiuso aperto1 true
+eq chiuso aperto2 true
+eq chiuso chiuso true
+eq chiuso var true
+eq var aperto1 true
+eq var aperto2 false
+eq var chiuso false
+eq var var true
+disj chiuso aperto1 true
+disj chiuso aperto2 false
+disj chiuso chiuso false
+disj chiuso var true
+disj var aperto1 true
+disj var aperto2 true
+disj var chiuso true
+disj var var true
+union chiuso aperto1 chiuso true
+union chiuso aperto1 var true
+union chiuso aperto2 chiuso true
+union chiuso aperto2 var true
+union chiuso chiuso chiuso true
+union chiuso chiuso var true
+union chiuso var chiuso true
+union chiuso var var true
+union var aperto1 chiuso true
+union var aperto1 var true
+union var aperto2 chiuso true
+union var aperto2 var true
+union var chiuso chiuso true
+union var chiuso var true
+union var var chiuso false
+union var var var true

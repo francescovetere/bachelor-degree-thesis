@@ -1,0 +1,16 @@
+$$$ global $$$
+
+$$$ local $$$
+LSet A = new LSet("A");
+LSet B = new LSet("B");
+
+$$$ args $$$
+var$LSet V1 = A$LSet V2 = B$LSet V3 = B
+chiuso$LSet C1 = LSet.empty().ins(A)$LSet C2 = LSet.empty().ins(A).ins(A)$LSet C3 = LSet.empty().ins(A).ins(B).ins(C)
+aperto1$***$LSet A1 = A.ins(new LVar("X"))$***
+aperto2$***$LSet A1 = new LSet("R").ins(A)$***
+
+$$$ constraints $$$
+eq$2$infix
+disj$2$infix
+union$3$infix

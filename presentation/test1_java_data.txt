@@ -1,0 +1,18 @@
+//codice globale
+$$$ global $$$
+
+//codice locale
+$$$ local $$$
+
+//insiemi o relazioni del test set
+$$$ args $$$
+vuoto$LSet E1 = LSet.empty()$...
+var$LSet V1 = new LSet("S1")$...
+chiuso$LSet C1 = LSet.empty().ins(new LVar("X1")).ins(new LVar("Y1"))$...
+aperto$LSet A1 = new LSet("B1").ins(new LVar("A1"))$...
+
+//vincoli del test set
+$$$ constraints $$$
+eq$2$infix
+disj$2$infix
+union$3$infix

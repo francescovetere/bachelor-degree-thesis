@@ -1,0 +1,13 @@
+$$$ user rules $$$
+
+$$$ args $$$
+lVarNotBound$LVNB$***
+lVarBound$3$***
+vuoto$***${}
+var$***$X
+chiuso$***${A,B}
+aperto$***${A/B}
+
+$$$ constraints $$$
+in$2$infix$in
+nin$2$infix$nin
