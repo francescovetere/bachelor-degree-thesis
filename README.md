@@ -3,7 +3,7 @@ This repository contains the thesis for my Bachelor's Degree in Computer Science
 
 In this thesis I developed a C++ program that automates the unit-testing process for [JSetL](http://www.clpset.unipr.it/jsetl/), a Java library developed at the University of Parma, which allows the user to use a declarative style of programming inside the classic imperative paradigm of Java.
  
-You can see the full [thesis](https://github.com/francescovetere/bachelor-degree-thesis/blob/master/thesis/thesis.pdf) in order to have a better understanding of how the software works.
+See the full [thesis](https://github.com/francescovetere/bachelor-degree-thesis/blob/master/thesis/thesis.pdf) in order to have a better understanding of how the software works.
  
 ## Contibutor(s)
 
